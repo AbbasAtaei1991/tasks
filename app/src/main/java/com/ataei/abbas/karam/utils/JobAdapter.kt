@@ -14,12 +14,16 @@ class JobAdapter(private val items: List<Job>?, private val context: Context, pr
     class JobViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val title = view.jobTitleTv
         private val done = view.doneCb
+        private val menu = view.optionMenu
 
         fun bind(job: Job, position: Int, listener: OnStatusClickListener, context: Context) {
             title.text = job.title
             done.isChecked = job.done
             done.setOnCheckedChangeListener { _, isChecked ->
                 listener.onStatusClicked(job, position, isChecked)
+            }
+            menu.setOnClickListener {
+                listener.onMenuClicked(job, it)
             }
         }
     }
