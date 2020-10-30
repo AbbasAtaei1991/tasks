@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/jobFragment">
+
+    <fragment
+        android:id="@+id/jobFragment"
+        android:name="com.ataei.abbas.karam.JobFragment"
+        android:label="JobFragment"
+        tools:layout="@layout/fragment_job">
+        <action
+            android:id="@+id/action_jobFragment_to_ransomFragment"
+            app:destination="@id/ransomFragment" />
+        <action
+            android:id="@+id/action_jobFragment_to_debtFragment"
+            app:destination="@id/debtFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debtFragment"
+        android:name="com.ataei.abbas.karam.DebtFragment"
+        android:label="DebtFragment"
+        tools:layout="@layout/fragment_debt"/>
+    <fragment
+        android:id="@+id/ransomFragment"
+        android:name="com.ataei.abbas.karam.RansomFragment"
+        android:label="RansomFragment"
+        tools:layout="@layout/fragment_ransom"/>
+</navigation>
