@@ -9,24 +9,29 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ataei.abbas.karam.data.model.Job
+import com.ataei.abbas.karam.utils.DateUtils
 import com.ataei.abbas.karam.utils.DialogListener
 import com.ataei.abbas.karam.utils.OnStatusClickListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private var date = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setDate()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.WHITE
         }
         btnNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_job -> {
-                    titleTv.text = "کاراها"
+                    titleTv.text = date
                     findController().navigate(R.id.jobFragment)
                 }
                 R.id.navigation_debt -> {
@@ -52,5 +57,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun setDate() {
+        val sdf: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val currentDateTime = sdf.format(Date())
+        date = DateUtils.getShamsiDate(Date())!!
     }
 }

@@ -13,19 +13,20 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.ataei.abbas.karam.R
 import kotlinx.android.synthetic.main.dialog_edit.*
+import kotlinx.android.synthetic.main.item_job.*
 import java.lang.ClassCastException
 
 class EditDialog : DialogFragment() {
 
     private var listener: DialogListener? = null
-    private var oldTitle: String? = ""
+    private var isNew: Boolean = true
 
     companion object {
-        private const val TITLE = "title"
+        private const val IS_NEW = "isNew"
 
-        fun newInstance(title: String) = EditDialog().apply {
+        fun newInstance(isNew: Boolean) = EditDialog().apply {
             arguments = bundleOf(
-                TITLE to title
+                IS_NEW to isNew,
             )
         }
     }
@@ -40,7 +41,7 @@ class EditDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        oldTitle = arguments?.getString("title")
+        isNew = requireArguments().getBoolean("isNew")
         return inflater.inflate(R.layout.dialog_edit, container, false)
     }
 
@@ -52,10 +53,16 @@ class EditDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        editJobEt.setText(oldTitle)
+        if (isNew) {
+            confirmBtn.text = "افزودن"
+        } else {
+            confirmBtn.text = "ویرایش"
+            JobTitleEt.hint = "عنوان جدید"
+        }
+
         confirmBtn.setOnClickListener {
             dismiss()
-            listener?.onDismiss(editJobEt.text.toString())
+            listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), isNew)
         }
     }
 }

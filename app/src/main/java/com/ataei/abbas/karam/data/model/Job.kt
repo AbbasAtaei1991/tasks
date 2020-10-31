@@ -8,5 +8,6 @@ data class Job(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val title: String,
+    val ransom: Int,
     val done: Boolean
 )

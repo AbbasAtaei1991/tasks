@@ -7,11 +7,30 @@
     android:background="@drawable/dialog_background"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editJobEt"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/JobTitleEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="8dp"
+        android:inputType="text"
         android:gravity="center"
+        android:hint="عنوان"
+        android:textColorHint="@color/hint_color"
+        android:textSize="14sp"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ransomEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/JobTitleEt"
+        android:inputType="number"
+        android:gravity="center"
+        android:hint="جریمه در صورت انجام ندادن"
+        android:textColorHint="@color/hint_color"
         android:textSize="14sp"/>
 
     <Button
@@ -20,8 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        android:layout_below="@id/editJobEt"
-        android:text="ویرایش"
+        android:layout_below="@id/ransomEt"
         android:textColor="@color/black"/>
 
 </RelativeLayout>

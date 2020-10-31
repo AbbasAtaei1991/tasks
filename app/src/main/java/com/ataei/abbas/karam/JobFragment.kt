@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.jobs.JobViewModel
 import com.ataei.abbas.karam.utils.DialogListener
@@ -42,15 +43,15 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         super.onViewCreated(view, savedInstanceState)
         jobRec.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         setupObservers()
+        showFab()
         addJobBtn.setOnClickListener {
-            val j = Job(null, jobEt.text.toString(), false)
-            viewModel.insertJob(j)
-            jobEt.setText("")
+            val dialog = EditDialog.newInstance(true)
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, isDone)
+        val newJob = Job(job.id, job.title, job.ransom, isDone)
         viewModel.updateJob(newJob)
     }
 
@@ -68,7 +69,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             isDone = job.done
             jobId = job.id!!
             customPopup.dismiss()
-            val dialog = EditDialog.newInstance(job.title)
+            val dialog = EditDialog.newInstance(false)
             dialog.show(childFragmentManager, dialog.tag)
         }
         val removeBtn = root.findViewById<Button>(R.id.removeJobBtn)
@@ -81,16 +82,36 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         customPopup.showAsDropDown(view)
     }
 
-    override fun onDismiss(newTitle: String) {
-        val newJob = Job(jobId, newTitle, isDone)
-        viewModel.updateJob(newJob)
-    }
-
     private fun setupObservers() {
         viewModel.jobs.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 adapter = JobAdapter(it, requireContext(), this)
                 jobRec.adapter = adapter
+            }
+        })
+    }
+
+    override fun onDismiss(title: String, ransom: String, isNew: Boolean) {
+        if (isNew) {
+            val newJob = Job(null, title, ransom.toInt(), false)
+            viewModel.insertJob(newJob)
+        } else {
+            val mJob = Job(jobId, title, ransom.toInt(), isDone)
+            viewModel.updateJob(mJob)
+        }
+    }
+
+    private fun showFab() {
+        jobRec.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    if (addJobBtn.isShown)
+                        addJobBtn.hide()
+                } else if (dy < 0) {
+                    if (!addJobBtn.isShown)
+                        addJobBtn.show()
+                }
             }
         })
     }
