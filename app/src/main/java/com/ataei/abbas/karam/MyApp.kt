@@ -9,6 +9,6 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        TypefaceUtil().overrideFonts(applicationContext, "SERIF", "fonts/iran_sans.ttf")
+        TypefaceUtil().overrideFonts(applicationContext, "SERIF", "fonts/dana.ttf")
     }
 }

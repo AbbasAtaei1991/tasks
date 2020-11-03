@@ -5,28 +5,33 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.ataei.abbas.karam.R
 import kotlinx.android.synthetic.main.dialog_edit.*
-import kotlinx.android.synthetic.main.item_job.*
 import java.lang.ClassCastException
 
 class EditDialog : DialogFragment() {
 
     private var listener: DialogListener? = null
-    private var isNew: Boolean = true
+    private var done: Boolean = true
+    private var oldTitle: String = ""
+    private var oldRansom: String = ""
 
     companion object {
-        private const val IS_NEW = "isNew"
+        private const val IS_DONE = "isDone"
+        private const val TITLE = "title"
+        private const val RANSOM = "ransom"
 
-        fun newInstance(isNew: Boolean) = EditDialog().apply {
+        fun newInstance(isDone: Boolean, title: String, ransom: String) = EditDialog().apply {
             arguments = bundleOf(
-                IS_NEW to isNew,
+                IS_DONE to isDone,
+                TITLE to title,
+                RANSOM to ransom
             )
         }
     }
@@ -41,7 +46,9 @@ class EditDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        isNew = requireArguments().getBoolean("isNew")
+        done = requireArguments().getBoolean("isDone")
+        oldTitle = requireArguments().getString("title")!!
+        oldRansom = requireArguments().getString("ransom")!!
         return inflater.inflate(R.layout.dialog_edit, container, false)
     }
 
@@ -53,16 +60,15 @@ class EditDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (isNew) {
-            confirmBtn.text = "افزودن"
-        } else {
-            confirmBtn.text = "ویرایش"
-            JobTitleEt.hint = "عنوان جدید"
-        }
-
+        JobTitleEt.setText(oldTitle)
+        ransomEt.setText(oldRansom)
         confirmBtn.setOnClickListener {
-            dismiss()
-            listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), isNew)
+            if (JobTitleEt.text!!.isNotEmpty() && ransomEt.text!!.isNotEmpty()) {
+                dismiss()
+                listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), done)
+            } else {
+                Toast.makeText(requireContext(), "موارد مورد نیاز را وارد کنید!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

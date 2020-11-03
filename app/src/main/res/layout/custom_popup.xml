@@ -4,65 +4,37 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp">
+        android:padding="16dp"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/editJobBtn"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/editJobTv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/pencil_outline"
+            android:drawablePadding="12dp"
             android:text="ویرایش"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/removeJobBtn"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/removeJobTv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/delete_outline"
+            android:drawablePadding="12dp"
+            android:layout_marginTop="16dp"
             android:text="حذف"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editJobBtn" />
+            android:textColor="@color/black" />
 
-        <ImageView
-            android:id="@+id/editJobIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editJobBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/editJobBtn"
-            app:layout_constraintTop_toTopOf="@+id/editJobBtn"
-            android:src="@drawable/pencil_outline" />
 
-        <ImageView
-            android:id="@+id/removeJobIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/removeJobBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/removeJobBtn"
-            app:layout_constraintTop_toTopOf="@+id/removeJobBtn"
-            android:src="@drawable/delete_outline" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

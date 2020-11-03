@@ -28,18 +28,19 @@ class MainActivity : AppCompatActivity() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.WHITE
         }
+        btnNavView.selectedItemId = R.id.navigation_job
         btnNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_job -> {
-                    titleTv.text = date
+                    titleTv.text = "کارام"
                     findController().navigate(R.id.jobFragment)
                 }
                 R.id.navigation_debt -> {
-                    titleTv.text = "انجام نشده ها"
+                    titleTv.text = "آمار"
                     findController().navigate(R.id.debtFragment)
                 }
                 R.id.navigation_ransom -> {
-                    titleTv.text = "جریمه ها"
+                    titleTv.text = "جریمه"
                     findController().navigate(R.id.ransomFragment)
                 }
             }

@@ -188,7 +188,7 @@ object DateUtils {
 
     fun getShamsiDate(date: Date?): String? {
         val sc = SolarCalendar(date!!)
-        return sc.strWeekDay + "  " + sc.date.toString() + "  " + sc.strMonth + "  " + sc.year.toString()
+        return sc.strWeekDay + " " + sc.date.toString() + " " + sc.strMonth + " " + sc.year.toString()
     }
 
     fun getDateFromTimeStamp(s: String): Date? {
