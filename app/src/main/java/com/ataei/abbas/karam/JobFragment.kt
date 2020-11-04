@@ -15,6 +15,7 @@ import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -55,6 +56,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        currentDate = DateUtils.getTimeStampFromDate(Date())
         jobCl.post {
             editTextWidth = mItemInputEditText.width
             buttonWidth = addJobBtn.width
@@ -83,11 +85,38 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             false
         )
 //        setupObservers()
-        observeJob()
+        getJobsByDate(currentDate)
+//        getLast()
         showFab()
         dateTv.text = DateUtils.getShamsiDate(Date())
-        currentDate = DateUtils.getTimeStampFromDate(Date())
 
+    }
+
+    private fun getLast() {
+        viewModel.last.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), it.id.toString(), Toast.LENGTH_SHORT).show()
+            Handler().postDelayed({
+                Toast.makeText(requireContext(), DateUtils.getTimeStampFromDate(Date()), Toast.LENGTH_SHORT).show()
+            }, 4000)
+            if (it.date != DateUtils.getTimeStampFromDate(Date())) {
+                getJobsByDate(it.date)
+                refresh()
+            }
+        })
+    }
+
+    private fun refresh() {
+        CoroutineScope(Dispatchers.Main).launch {
+            for (job in jobList) {
+                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()))
+                viewModel.insertJob(j)
+            }
+        }
+//        val list: MutableList<Job> = ArrayList()
+//        list.clear()
+//        viewModel.insertAll(list)
+//        adapter = JobAdapter(list, requireContext(), this)
+//        jobRec.adapter = adapter
     }
 
     private fun showEditText() {
@@ -217,20 +246,19 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 //        })
 //    }
 
-    private fun observeJobs() {
+    private fun getJobsByDate(date: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.getJobsByStatus(true).observe(viewLifecycleOwner, Observer {
-                adapter = JobAdapter(it, requireContext(), this@JobFragment)
-                jobRec.adapter = adapter
-            })
-        }
-    }
-
-    private fun observeJob() {
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.getJobsByDate(currentDate).observe(viewLifecycleOwner, Observer {
-                adapter = JobAdapter(it, requireContext(), this@JobFragment)
-                jobRec.adapter = adapter
+            viewModel.getJobsByDate(date).observe(viewLifecycleOwner, Observer {
+                if (!it.isNullOrEmpty()) {
+                    for (item in it) {
+                        jobList.clear()
+                        jobList.add(item)
+                    }
+                    adapter = JobAdapter(it, requireContext(), this@JobFragment)
+                    jobRec.adapter = adapter
+                } else {
+                    getLast()
+                }
             })
         }
     }

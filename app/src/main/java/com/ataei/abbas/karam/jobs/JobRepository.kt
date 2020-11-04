@@ -9,11 +9,15 @@ class JobRepository @Inject constructor(
 ) {
     fun getJobs() = jobDao.getAllJobs()
 
+    fun getLastJob() = jobDao.getLastRecord()
+
     fun getJob(id: Int) = jobDao.getJob(id)
 
     fun getJobsByDate(date: String) = jobDao.getJobByDate(date)
 
     fun getJobsByStatus(status: Boolean) = jobDao.getJobByStatus(status)
+
+    suspend fun insertAll(jobs: List<Job>) = jobDao.insertAll(jobs)
 
     suspend fun insertJob(job: Job) = jobDao.insert(job)
 

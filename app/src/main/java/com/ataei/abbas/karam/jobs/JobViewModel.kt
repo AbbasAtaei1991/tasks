@@ -13,6 +13,8 @@ class JobViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     val jobs: LiveData<List<Job>> = repository.getJobs().asLiveData()
 
+    val last: LiveData<Job> = repository.getLastJob()
+
     fun getJobsByDate(date: String): LiveData<List<Job>> = repository.getJobsByDate(date).asLiveData()
 
     fun getJobsByStatus(status: Boolean): LiveData<List<Job>> = repository.getJobsByStatus(status).asLiveData()
@@ -20,6 +22,8 @@ class JobViewModel @ViewModelInject constructor(
     fun getJob(id: Int) = repository.getJob(id)
 
     fun insertJob(job: Job) = viewModelScope.launch { repository.insertJob(job) }
+
+    fun insertAll(jobs: List<Job>) = viewModelScope.launch { repository.insertAll(jobs) }
 
     fun updateJob(job: Job) = viewModelScope.launch { repository.updateJob(job) }
 
