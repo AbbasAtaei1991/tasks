@@ -202,7 +202,7 @@ object DateUtils {
     }
 
     fun getTimeStampFromDate(date: Date): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(date)
     }
 

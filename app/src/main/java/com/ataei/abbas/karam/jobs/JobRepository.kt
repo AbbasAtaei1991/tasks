@@ -5,13 +5,19 @@ import com.ataei.abbas.karam.data.model.JobDao
 import javax.inject.Inject
 
 class JobRepository @Inject constructor(
-    private val localDataSource: JobDao
+    private val jobDao: JobDao
 ) {
-    fun getJobs() = localDataSource.getAllJobs()
+    fun getJobs() = jobDao.getAllJobs()
 
-    suspend fun insertJob(job: Job) = localDataSource.insert(job)
+    fun getJob(id: Int) = jobDao.getJob(id)
 
-    suspend fun updateJob(job: Job) = localDataSource.updateJob(job)
+    fun getJobsByDate(date: String) = jobDao.getJobByDate(date)
 
-    suspend fun deleteJob(job: Job) = localDataSource.deleteJob(job)
+    fun getJobsByStatus(status: Boolean) = jobDao.getJobByStatus(status)
+
+    suspend fun insertJob(job: Job) = jobDao.insert(job)
+
+    suspend fun updateJob(job: Job) = jobDao.updateJob(job)
+
+    suspend fun deleteJob(job: Job) = jobDao.deleteJob(job)
 }

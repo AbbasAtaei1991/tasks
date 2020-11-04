@@ -2,15 +2,22 @@ package com.ataei.abbas.karam.data.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface JobDao {
 
     @Query("SELECT * FROM jobs")
-    fun getAllJobs() : LiveData<List<Job>>
+    fun getAllJobs() : Flow<List<Job>>
 
     @Query("SELECT * FROM jobs WHERE id = :id")
     fun getJob(id: Int) : LiveData<Job>
+
+    @Query("SELECT * FROM jobs WHERE date = :date")
+    fun getJobByDate(date: String) : Flow<List<Job>>
+
+    @Query("SELECT * FROM jobs WHERE done = :status")
+    fun getJobByStatus(status: Boolean) : Flow<List<Job>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(job: Job)
