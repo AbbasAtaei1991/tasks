@@ -18,18 +18,18 @@ import java.lang.ClassCastException
 class EditDialog : DialogFragment() {
 
     private var listener: DialogListener? = null
-    private var done: Boolean = true
+    private var repeat: Boolean = true
     private var oldTitle: String = ""
     private var oldRansom: String = ""
 
     companion object {
-        private const val IS_DONE = "isDone"
+        private const val REPEAT = "repeat"
         private const val TITLE = "title"
         private const val RANSOM = "ransom"
 
-        fun newInstance(isDone: Boolean, title: String, ransom: String) = EditDialog().apply {
+        fun newInstance(repeat: Boolean, title: String, ransom: String) = EditDialog().apply {
             arguments = bundleOf(
-                IS_DONE to isDone,
+                REPEAT to repeat,
                 TITLE to title,
                 RANSOM to ransom
             )
@@ -46,7 +46,7 @@ class EditDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        done = requireArguments().getBoolean("isDone")
+        repeat = requireArguments().getBoolean("repeat")
         oldTitle = requireArguments().getString("title")!!
         oldRansom = requireArguments().getString("ransom")!!
         return inflater.inflate(R.layout.dialog_edit, container, false)
@@ -62,10 +62,11 @@ class EditDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         JobTitleEt.setText(oldTitle)
         ransomEt.setText(oldRansom)
+        repeatCb.isChecked = repeat
         confirmBtn.setOnClickListener {
             if (JobTitleEt.text!!.isNotEmpty() && ransomEt.text!!.isNotEmpty()) {
                 dismiss()
-                listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), done)
+                listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), repeatCb.isChecked)
             } else {
                 Toast.makeText(requireContext(), "موارد مورد نیاز را وارد کنید!", Toast.LENGTH_SHORT).show()
             }

@@ -10,5 +10,6 @@ data class Job(
     val title: String,
     val ransom: Int,
     val done: Boolean,
-    val date: String
+    val date: String,
+    val repeat: Boolean
 )

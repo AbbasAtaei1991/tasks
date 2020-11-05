@@ -40,7 +40,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     private val viewModel: JobViewModel by viewModels()
     private lateinit var adapter: JobAdapter
     private var jobList: MutableList<Job> = ArrayList()
-    private var isDone: Boolean = false
+    private var complete: Boolean = false
     private var jobId: Int = 0
     private var editTextWidth: Int = 0
     private var buttonWidth: Int = 0
@@ -67,7 +67,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             mItemInputEditText.setOnEditorActionListener { v, actionId, event ->
                 if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     if (mItemInputEditText.text!!.isNotEmpty()) {
-                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate)
+                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true)
                         viewModel.insertJob(newJob)
                         mItemInputEditText.setText("")
                         Handler().postDelayed({
@@ -108,7 +108,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     private fun refresh() {
         CoroutineScope(Dispatchers.Main).launch {
             for (job in jobList) {
-                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()))
+                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true)
                 viewModel.insertJob(j)
             }
         }
@@ -202,7 +202,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)
@@ -221,10 +221,10 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         }
         val editBtn = root.findViewById<TextView>(R.id.editJobTv)
         editBtn.setOnClickListener {
-            isDone = job.done
+            complete = job.done
             jobId = job.id!!
             customPopup.dismiss()
-            val dialog = EditDialog.newInstance(job.done, job.title, job.ransom.toString())
+            val dialog = EditDialog.newInstance(job.repeat, job.title, job.ransom.toString())
             dialog.show(childFragmentManager, dialog.tag)
         }
         val removeBtn = root.findViewById<TextView>(R.id.removeJobTv)
@@ -257,14 +257,14 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
                     adapter = JobAdapter(it, requireContext(), this@JobFragment)
                     jobRec.adapter = adapter
                 } else {
-                    getLast()
+//                    getLast()
                 }
             })
         }
     }
 
-    override fun onDismiss(title: String, ransom: String, done: Boolean) {
-        val mJob = Job(jobId, title, ransom.toInt(), done, currentDate)
+    override fun onDismiss(title: String, ransom: String, repeat: Boolean) {
+        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat)
         viewModel.updateJob(mJob)
     }
 

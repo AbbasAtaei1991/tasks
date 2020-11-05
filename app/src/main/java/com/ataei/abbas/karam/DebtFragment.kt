@@ -61,7 +61,7 @@ class DebtFragment : Fragment(), OnStatusClickListener {
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)
