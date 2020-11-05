@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ataei.abbas.karam.data.model.Day
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.jobs.JobViewModel
 import com.ataei.abbas.karam.utils.*
@@ -51,12 +52,13 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        currentDate = DateUtils.getTimeStampFromDate(Date())
+        insertDay(currentDate)
         return inflater.inflate(R.layout.fragment_job, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentDate = DateUtils.getTimeStampFromDate(Date())
         jobCl.post {
             editTextWidth = mItemInputEditText.width
             buttonWidth = addJobBtn.width
@@ -67,7 +69,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             mItemInputEditText.setOnEditorActionListener { v, actionId, event ->
                 if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     if (mItemInputEditText.text!!.isNotEmpty()) {
-                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true)
+                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true, currentDate)
                         viewModel.insertJob(newJob)
                         mItemInputEditText.setText("")
                         Handler().postDelayed({
@@ -92,6 +94,11 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 
     }
 
+    private fun insertDay(date: String) {
+        val day = Day(date, 0, false)
+        viewModel.insertDay(day)
+    }
+
     private fun getLast() {
         viewModel.last.observe(viewLifecycleOwner, Observer {
             Toast.makeText(requireContext(), it.id.toString(), Toast.LENGTH_SHORT).show()
@@ -108,7 +115,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     private fun refresh() {
         CoroutineScope(Dispatchers.Main).launch {
             for (job in jobList) {
-                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true)
+                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate)
                 viewModel.insertJob(j)
             }
         }
@@ -202,7 +209,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)
@@ -264,7 +271,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     override fun onDismiss(title: String, ransom: String, repeat: Boolean) {
-        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat)
+        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat, currentDate)
         viewModel.updateJob(mJob)
     }
 

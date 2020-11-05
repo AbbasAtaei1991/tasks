@@ -2,6 +2,7 @@ package com.ataei.abbas.karam.di
 
 import android.content.Context
 import com.ataei.abbas.karam.data.model.AppDatabase
+import com.ataei.abbas.karam.data.model.DayDao
 import com.ataei.abbas.karam.data.model.JobDao
 import com.ataei.abbas.karam.jobs.JobRepository
 import dagger.Module
@@ -21,9 +22,13 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideDayDao(db: AppDatabase) = db.dayDao()
+
+    @Singleton
+    @Provides
     fun provideJobDao(db: AppDatabase) = db.jobDao()
 
     @Singleton
     @Provides
-    fun provideRepository(localDataSource: JobDao) = JobRepository(localDataSource)
+    fun provideRepository(jobDao: JobDao, dayDao: DayDao) = JobRepository(jobDao, dayDao)
 }

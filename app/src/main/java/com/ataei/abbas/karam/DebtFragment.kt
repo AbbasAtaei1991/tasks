@@ -5,7 +5,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,8 +16,10 @@ import com.ataei.abbas.karam.utils.JobAdapter
 import com.ataei.abbas.karam.utils.OnStatusClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_debt.*
-import kotlinx.android.synthetic.main.fragment_job.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,7 +44,17 @@ class DebtFragment : Fragment(), OnStatusClickListener {
             LinearLayoutManager.VERTICAL,
             false
         )
+//        CoroutineScope(Dispatchers.IO).launch { getDay() }
         observeJobs()
+    }
+
+    private suspend fun getDay() {
+        withContext(Dispatchers.IO) {
+            val mList: List<Job> = viewModel.getDays()[0].jobs
+            adapter = JobAdapter(mList, requireContext(), this@DebtFragment)
+            pendingRv.adapter = adapter
+
+        }
     }
 
     private fun observeJobs() {
@@ -54,14 +65,14 @@ class DebtFragment : Fragment(), OnStatusClickListener {
                         jobList.add(item)
                     }
                 }
-                adapter = JobAdapter(jobList, requireContext(), this@DebtFragment)
+                adapter = JobAdapter(it, requireContext(), this@DebtFragment)
                 pendingRv.adapter = adapter
             })
         }
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)

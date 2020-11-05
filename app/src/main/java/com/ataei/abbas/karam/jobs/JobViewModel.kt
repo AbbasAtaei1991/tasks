@@ -5,8 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.ataei.abbas.karam.data.model.Day
+import com.ataei.abbas.karam.data.model.DayWithJobs
 import com.ataei.abbas.karam.data.model.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 class JobViewModel @ViewModelInject constructor(
     private val repository: JobRepository
@@ -16,6 +20,12 @@ class JobViewModel @ViewModelInject constructor(
     val last: LiveData<Job> = repository.getLastJob()
 
     fun getJobsByDate(date: String): LiveData<List<Job>> = repository.getJobsByDate(date).asLiveData()
+
+    fun insertDay(day: Day) = viewModelScope.launch { repository.insertDay(day) }
+
+    fun getDay(date: String): DayWithJobs = repository.getDay(date)
+
+    fun getDays(): List<DayWithJobs> = repository.getDays()
 
     fun getJobsByStatus(status: Boolean): LiveData<List<Job>> = repository.getJobsByStatus(status).asLiveData()
 
