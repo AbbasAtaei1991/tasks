@@ -21,7 +21,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ataei.abbas.karam.data.model.Day
@@ -87,10 +86,8 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             LinearLayoutManager.VERTICAL,
             false
         )
-//        setupObservers()
         getJobsByDate(currentDate)
-//        getLast()
-        showFab()
+        showHideBtn()
         dateTv.text = DateUtils.getShamsiDate(Date())
 
         dateCv.setOnClickListener {
@@ -106,35 +103,29 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     private fun getLast() {
-        viewModel.last.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireContext(), it.id.toString(), Toast.LENGTH_SHORT).show()
+        viewModel.last.observe(viewLifecycleOwner, {
             Handler().postDelayed({
                 Toast.makeText(requireContext(), DateUtils.getTimeStampFromDate(Date()), Toast.LENGTH_SHORT).show()
             }, 4000)
             if (it.date != DateUtils.getTimeStampFromDate(Date())) {
                 getJobsByDate(it.date)
-                refresh()
+                insertNewJobs()
             }
         })
     }
 
-    private fun refresh() {
+    private fun insertNewJobs() {
         CoroutineScope(Dispatchers.Main).launch {
             for (job in jobList) {
                 val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate, false)
                 viewModel.insertJob(j)
             }
         }
-//        val list: MutableList<Job> = ArrayList()
-//        list.clear()
-//        viewModel.insertAll(list)
-//        adapter = JobAdapter(list, requireContext(), this)
-//        jobRec.adapter = adapter
     }
 
     private fun showEditText() {
         val from: Int = addJobBtn.width
-        val to = (from * 3.0f).toInt() // increase by 20%
+        val to = (from * 3.0f).toInt()
 
         val interpolator = LinearInterpolator()
 
@@ -173,7 +164,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 
     private fun hideEditText() {
         val from: Int = mItemInputEditText.width
-        val to = (from * 0.8f).toInt() // increase by 20%
+        val to = (from * 0.8f).toInt()
 
         val interpolator = LinearInterpolator()
 
@@ -254,18 +245,9 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 
     }
 
-//    private fun setupObservers() {
-//        viewModel.jobs.observe(viewLifecycleOwner, Observer {
-//            if (it != null) {
-//                adapter = JobAdapter(jobList, requireContext(), this)
-//                jobRec.adapter = adapter
-//            }
-//        })
-//    }
-
     private fun getJobsByDate(date: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.getJobsByDate(date).observe(viewLifecycleOwner, Observer {
+            viewModel.getJobsByDate(date).observe(viewLifecycleOwner, {
                 if (it != null) {
                     for (item in it) {
                         jobList.clear()
@@ -285,7 +267,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         viewModel.updateJob(mJob)
     }
 
-    private fun showFab() {
+    private fun showHideBtn() {
         jobRec.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

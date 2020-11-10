@@ -1,20 +1,18 @@
 package com.ataei.abbas.karam.utils
 
-import android.content.Context
 import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation.RELATIVE_TO_SELF
-import android.view.animation.AnimationUtils
-import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.ataei.abbas.karam.R
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.data.model.Parent
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import kotlinx.android.synthetic.main.child_row.view.*
 import kotlinx.android.synthetic.main.parent_row.view.*
 
@@ -48,7 +46,31 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
             }
         }
         val p: Double = (d.toDouble()/expandableType.jobs.size.toDouble()) * 100
-        parentViewHolder.containerView.tvPercent.text = p.toInt().toString()
+        val pieChart = parentViewHolder.containerView.tvPercent
+        initChart(pieChart, p.toFloat())
+    }
+
+    private fun initChart(chart: PieChart, percent: Float) {
+        val pieList = ArrayList<PieEntry>()
+        val colorList = ArrayList<Int>()
+        pieList.add(PieEntry(percent, ""))
+        colorList.add(chart.context.resources.getColor(R.color.teal_200))
+        pieList.add(PieEntry((100 - percent), ""))
+        colorList.add(chart.context.resources.getColor(R.color.red))
+        val pieDataSet = PieDataSet(pieList, "")
+        pieDataSet.colors = colorList
+        val pieData = PieData(pieDataSet)
+        pieData.setDrawValues(false)
+        chart.data = pieData
+        with(chart) {
+            isDrawHoleEnabled = true
+            holeRadius = 70F
+            description.isEnabled = false
+            legend.isEnabled = false
+            centerText = percent.toInt().toString()
+            setCenterTextSize(7F)
+            setEntryLabelColor(android.R.color.transparent)
+        }
     }
 
     override fun onCreateChildViewHolder(child: ViewGroup, viewType: Int): CViewHolder {
@@ -110,16 +132,12 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
 
     override fun onStateChange(expandableViewHolder: PViewHolder, expandableType: Parent) {
         val arrow: ImageView = expandableViewHolder.containerView.chevronIv
-        val rotate = AnimationUtils.loadAnimation(expandableViewHolder.containerView.context, R.anim.rotate_clk)
-        arrow.startAnimation(rotate)
-        if (expandableType.isExpanded) {
+//        val rotate = AnimationUtils.loadAnimation(expandableViewHolder.containerView.context, R.anim.rotate_clk)
+//        arrow.startAnimation(rotate)
+//        if (expandableType.isExpanded) {
 //            arrow.setImageResource(R.drawable.chevron_up)
-        } else {
+//        } else {
 //            arrow.setImageResource(R.drawable.chevron_down)
-        }
-    }
-
-    private fun rotate(context: Context) {
-
+//        }
     }
 }

@@ -32,15 +32,15 @@ class MainActivity : AppCompatActivity() {
         btnNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_job -> {
-                    titleTv.text = "کارام"
+//                    titleTv.text = "کارام"
                     findController().navigate(R.id.jobFragment)
                 }
                 R.id.navigation_debt -> {
-                    titleTv.text = "آمار"
+//                    titleTv.text = "آمار"
                     findController().navigate(R.id.debtFragment)
                 }
                 R.id.navigation_ransom -> {
-                    titleTv.text = "جریمه"
+//                    titleTv.text = "جریمه"
                     findController().navigate(R.id.ransomFragment)
                 }
             }

@@ -33,7 +33,7 @@
             android:id="@+id/doneCb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="پرداخت"
+            android:text="پرداخت جریمه"
             android:textColor="@color/teal_700"
             android:textSize="14sp"
             android:visibility="invisible"
