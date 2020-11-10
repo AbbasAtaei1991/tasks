@@ -7,4 +7,6 @@ interface OnStatusClickListener {
     fun onStatusClicked(job: Job, position: Int, isDone: Boolean)
 
     fun onMenuClicked(job: Job, view: View)
+
+    fun onPay(job: Job)
 }

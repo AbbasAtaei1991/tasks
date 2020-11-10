@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
@@ -69,7 +70,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
             mItemInputEditText.setOnEditorActionListener { v, actionId, event ->
                 if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     if (mItemInputEditText.text!!.isNotEmpty()) {
-                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true, currentDate)
+                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true, currentDate, false)
                         viewModel.insertJob(newJob)
                         mItemInputEditText.setText("")
                         Handler().postDelayed({
@@ -91,6 +92,11 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
 //        getLast()
         showFab()
         dateTv.text = DateUtils.getShamsiDate(Date())
+
+        dateCv.setOnClickListener {
+            val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clk)
+            addJobBtn.startAnimation(rotate)
+        }
 
     }
 
@@ -115,7 +121,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     private fun refresh() {
         CoroutineScope(Dispatchers.Main).launch {
             for (job in jobList) {
-                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate)
+                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate, false)
                 viewModel.insertJob(j)
             }
         }
@@ -209,7 +215,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId, false)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)
@@ -244,6 +250,10 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
         customPopup.showAsDropDown(view)
     }
 
+    override fun onPay(job: Job) {
+
+    }
+
 //    private fun setupObservers() {
 //        viewModel.jobs.observe(viewLifecycleOwner, Observer {
 //            if (it != null) {
@@ -256,7 +266,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     private fun getJobsByDate(date: String) {
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.getJobsByDate(date).observe(viewLifecycleOwner, Observer {
-                if (!it.isNullOrEmpty()) {
+                if (it != null) {
                     for (item in it) {
                         jobList.clear()
                         jobList.add(item)
@@ -271,7 +281,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
     }
 
     override fun onDismiss(title: String, ransom: String, repeat: Boolean) {
-        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat, currentDate)
+        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat, currentDate, false)
         viewModel.updateJob(mJob)
     }
 

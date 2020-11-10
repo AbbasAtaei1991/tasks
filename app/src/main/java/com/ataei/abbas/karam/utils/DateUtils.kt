@@ -191,6 +191,11 @@ object DateUtils {
         return sc.strWeekDay + " " + sc.date.toString() + " " + sc.strMonth + " " + sc.year.toString()
     }
 
+    fun getShamsi(date: Date?): String? {
+        val sc = SolarCalendar(date!!)
+        return sc.date.toString() + " " + sc.strMonth + " " + sc.year.toString()
+    }
+
     fun getDateFromTimeStamp(s: String): Date? {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         dateFormat.timeZone = TimeZone.getTimeZone("GMT")
@@ -212,7 +217,7 @@ object DateUtils {
     }
 
     fun getDateFromString(date: String): Date {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.parse(date)!!
     }
 }

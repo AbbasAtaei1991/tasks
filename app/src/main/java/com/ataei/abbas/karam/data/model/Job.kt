@@ -12,5 +12,6 @@ data class Job(
     val done: Boolean,
     val date: String,
     val repeat: Boolean,
-    val dayId: String
+    val dayId: String,
+    val pay: Boolean = false
 )
