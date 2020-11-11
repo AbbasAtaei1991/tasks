@@ -1,5 +1,5 @@
 # tasks
-A simple app for manage daily routines using mvvm architecture.
+A simple app for manage daily routines writen in kotlin using mvvm architecture.
 
 Used components and tools :
 
