@@ -18,3 +18,7 @@ Used components and tools :
 * MPAndroidChart
 
 * Dagger-Hilt
+
+![alt text](https://github.com/AbbasAtaei1991/tasks/blob/master/screenshots/1.jpg?raw=true)
+
+![alt text](https://github.com/AbbasAtaei1991/tasks/blob/master/screenshots/2.jpg?raw=true)
