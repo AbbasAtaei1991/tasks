@@ -16,6 +16,9 @@ interface JobDao {
     @Query("SELECT * FROM jobs ORDER BY id DESC LIMIT 1")
     fun getLastRecord() : LiveData<Job>
 
+    @Query("SELECT * FROM jobs WHERE done = :done")
+    fun getJobsBy(done: Boolean) : LiveData<List<Job>>
+
     @Query("SELECT * FROM jobs WHERE id = :id")
     fun getJob(id: Int) : LiveData<Job>
 

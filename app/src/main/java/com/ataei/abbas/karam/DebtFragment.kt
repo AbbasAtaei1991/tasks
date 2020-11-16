@@ -54,8 +54,20 @@ class DebtFragment : Fragment(), OnStatusClickListener {
             launch(Dispatchers.Main) {
                 adapter = MyAdapter(parents, this@DebtFragment)
                 pendingRv.adapter = adapter
+                getDept()
             }
         }
+    }
+
+    private fun getDept() {
+        viewModel.getJobsByStatus(false).observe(viewLifecycleOwner, {
+            var dept = 0
+            for (job in it) {
+                if (!job.pay)
+                    dept += 1
+            }
+            tvDept.text = (dept * 1000).toString()
+        })
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {

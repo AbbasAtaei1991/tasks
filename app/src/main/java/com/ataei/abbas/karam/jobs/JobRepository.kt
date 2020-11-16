@@ -26,6 +26,8 @@ class JobRepository @Inject constructor(
 
     fun getJobsByStatus(status: Boolean) = jobDao.getJobByStatus(status)
 
+    fun getJobsBy(status: Boolean) = jobDao.getJobsBy(status)
+
     suspend fun insertAll(jobs: List<Job>) = jobDao.insertAll(jobs)
 
     suspend fun insertJob(job: Job) = jobDao.insert(job)

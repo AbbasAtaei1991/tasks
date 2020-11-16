@@ -27,8 +27,6 @@ class JobViewModel @ViewModelInject constructor(
 
     fun getDays(): List<DayWithJobs> = repository.getDays()
 
-    fun getJobsByStatus(status: Boolean): LiveData<List<Job>> = repository.getJobsByStatus(status).asLiveData()
-
     fun getJob(id: Int) = repository.getJob(id)
 
     fun insertJob(job: Job) = viewModelScope.launch { repository.insertJob(job) }
