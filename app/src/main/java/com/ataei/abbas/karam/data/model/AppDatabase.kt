@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.ataei.abbas.karam.data.dao.DailyDao
+import com.ataei.abbas.karam.data.dao.DayDao
+import com.ataei.abbas.karam.data.dao.JobDao
 
-@Database(entities = [Day::class, Job::class], version = 2, exportSchema = false)
+@Database(entities = [Day::class, Job::class, Daily::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun jobDao() : JobDao
     abstract fun dayDao() : DayDao
+    abstract fun dailyDao() : DailyDao
 
     companion object {
         @Volatile private var instance: AppDatabase? = null

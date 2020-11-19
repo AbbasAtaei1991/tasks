@@ -1,7 +1,8 @@
-package com.ataei.abbas.karam.data.model
+package com.ataei.abbas.karam.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.ataei.abbas.karam.data.model.Job
 import kotlinx.coroutines.flow.Flow
 
 @Dao

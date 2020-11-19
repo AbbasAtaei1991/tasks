@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_debt"/>
     <fragment
         android:id="@+id/ransomFragment"
-        android:name="com.ataei.abbas.karam.RansomFragment"
+        android:name="com.ataei.abbas.karam.SettingFragment"
         android:label="RansomFragment"
-        tools:layout="@layout/fragment_ransom"/>
+        tools:layout="@layout/fragment_setting"/>
 </navigation>

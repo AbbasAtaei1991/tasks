@@ -21,8 +21,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ataei.abbas.karam.data.model.Daily
 import com.ataei.abbas.karam.data.model.Day
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.jobs.JobViewModel
@@ -37,10 +39,11 @@ import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
-class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
+class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirmListener {
     private val viewModel: JobViewModel by viewModels()
     private lateinit var adapter: JobAdapter
     private var jobList: MutableList<Job> = ArrayList()
+    private var dailyList: MutableList<Daily> = ArrayList()
     private var complete: Boolean = false
     private var jobId: Int = 0
     private var editTextWidth: Int = 0
@@ -255,6 +258,10 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
                     }
                     adapter = JobAdapter(it, requireContext(), this@JobFragment)
                     jobRec.adapter = adapter
+                    if (it.isEmpty()) {
+                        val dialog = ConfirmDialog()
+                        dialog.show(childFragmentManager, dialog.tag)
+                    }
                 } else {
 //                    getLast()
                 }
@@ -282,5 +289,29 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener {
                 }
             }
         })
+    }
+
+    private fun getDailies() {
+        viewModel.items.observe(viewLifecycleOwner, {
+            if (it != null) {
+                for (item in it) {
+                    dailyList.add(item)
+                }
+                insertNewList(dailyList)
+            }
+        })
+    }
+
+    private fun insertNewList(list: List<Daily>) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            for (item in list) {
+                val job = Job(null, item.title, 1000, false, currentDate, true, currentDate, false)
+                viewModel.insertJob(job)
+            }
+        }
+    }
+
+    override fun onConfirm() {
+        getDailies()
     }
 }

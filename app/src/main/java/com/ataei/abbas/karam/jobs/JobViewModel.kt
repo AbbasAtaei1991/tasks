@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.ataei.abbas.karam.data.model.Daily
 import com.ataei.abbas.karam.data.model.Day
 import com.ataei.abbas.karam.data.model.DayWithJobs
 import com.ataei.abbas.karam.data.model.Job
@@ -36,5 +37,7 @@ class JobViewModel @ViewModelInject constructor(
     fun updateJob(job: Job) = viewModelScope.launch { repository.updateJob(job) }
 
     fun deleteJob(job: Job) = viewModelScope.launch { repository.deleteJob(job) }
+
+    val items: LiveData<List<Daily>> = repository.getAll().asLiveData()
 
 }

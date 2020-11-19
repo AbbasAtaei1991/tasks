@@ -1,8 +1,8 @@
-package com.ataei.abbas.karam.data.model
+package com.ataei.abbas.karam.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import com.ataei.abbas.karam.data.model.Day
+import com.ataei.abbas.karam.data.model.DayWithJobs
 
 @Dao
 interface DayDao {

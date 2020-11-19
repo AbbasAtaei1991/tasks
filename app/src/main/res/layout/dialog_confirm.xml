@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".utils.ConfirmDialog"
+    android:background="@drawable/dialog_background"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/desc_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="آیا تمایل دارید کارهای روزانه را به لیست امروز اضافه کنید؟"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/yes_btn"
+        style="@style/AppTheme.CustomMaterialButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_text"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:text="بله"
+        android:textColor="@color/white"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/no_btn"
+        style="@style/AppTheme.CustomMaterialButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_text"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:text="خیر"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>
