@@ -6,6 +6,7 @@
     android:background="@color/background">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/dailyCv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
@@ -21,52 +22,51 @@
             android:layout_height="match_parent"
             android:padding="8dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/descCv"
+            <TextView
+                android:id="@+id/descTv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="کارهایی که هر روز باید انجام دهم"
+                android:textColor="#0926D6"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/dailyRv"
-                app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="@color/white">
+                app:layout_constraintBottom_toTopOf="@id/line"/>
 
-                <TextView
-                    android:id="@+id/descTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="کارهایی که هر روز باید انجام دهم"
-                    android:textColor="#0926D6"
-                    android:textSize="14sp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"/>
-
-            </androidx.cardview.widget.CardView>
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/hint_color"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descTv"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dailyRv"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="200dp"
+                app:layout_constraintHeight_max="200dp"
+                android:layout_marginTop="8dp"
                 android:paddingBottom="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/descCv"
+                app:layout_constraintTop_toBottomOf="@id/line"
                 app:layout_constraintBottom_toTopOf="@id/dailyBtn"/>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/dailyEt"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:background="@drawable/et_bg"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp"
                 android:hint="عنوان"
                 android:textColorHint="@color/hint_color"
                 android:textSize="14sp"
@@ -80,8 +80,10 @@
                 android:id="@+id/dailyBtn"
                 style="@style/AppTheme.CustomMaterialButton"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="12dp"
                 android:text="افزودن"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/dailyRv"
@@ -91,6 +93,55 @@
                 app:layout_constraintHorizontal_bias="0.0"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/ransom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/dailyCv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="12dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:text="جریمه پیش فرض :"
+        android:textColor="#0926D6"
+        android:textSize="16sp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/ransom"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etRansom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/ransomBtn"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:background="@color/white"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/ransomBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/pencil_outline"
+                android:layout_marginStart="8dp"/>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
