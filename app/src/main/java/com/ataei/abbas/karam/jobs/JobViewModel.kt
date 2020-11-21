@@ -9,12 +9,14 @@ import com.ataei.abbas.karam.data.model.Daily
 import com.ataei.abbas.karam.data.model.Day
 import com.ataei.abbas.karam.data.model.DayWithJobs
 import com.ataei.abbas.karam.data.model.Job
+import com.ataei.abbas.karam.utils.UserPreferenceRepository
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 class JobViewModel @ViewModelInject constructor(
-    private val repository: JobRepository
+    private val repository: JobRepository,
+    private val userPreferenceRepository: UserPreferenceRepository
 ) : ViewModel() {
     val jobs: LiveData<List<Job>> = repository.getJobs().asLiveData()
 
@@ -39,5 +41,7 @@ class JobViewModel @ViewModelInject constructor(
     fun deleteJob(job: Job) = viewModelScope.launch { repository.deleteJob(job) }
 
     val items: LiveData<List<Daily>> = repository.getAll().asLiveData()
+
+    val savedRansom: LiveData<String> = userPreferenceRepository.getRansom().asLiveData()
 
 }

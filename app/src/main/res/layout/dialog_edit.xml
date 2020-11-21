@@ -53,7 +53,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:layout_below="@id/JobTitleEt"
-        android:inputType="number"
+        android:inputType="text"
         android:gravity="center"
         android:hint="جریمه در صورت انجام ندادن"
         android:textColorHint="@color/hint_color"

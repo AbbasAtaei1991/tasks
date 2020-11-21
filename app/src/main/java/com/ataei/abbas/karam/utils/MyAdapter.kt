@@ -90,15 +90,16 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         position: Int
     ) {
         val title: TextView = childViewHolder.containerView.childTitleTv
+        val ran: TextView = childViewHolder.containerView.ransomTv
         title.text = expandedType.title
+        ran.text = expandedType.ransom
         if (expandedType.done) {
             childViewHolder.containerView.payIv.visibility = View.VISIBLE
+            ran.visibility = View.INVISIBLE
         } else {
             childViewHolder.containerView.unDoneIv.visibility = View.VISIBLE
-            if (!expandedType.pay) {
-                childViewHolder.containerView.doneCb.visibility = View.VISIBLE
-            } else {
-                title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            if (expandedType.pay) {
+                ran.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
         }
 
@@ -118,9 +119,8 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         expandedType: Job,
         expandableType: Parent
     ) {
-        val tv: TextView = expandedViewHolder.containerView.childTitleTv
+        val tv: TextView = expandedViewHolder.containerView.ransomTv
         if (!expandedType.pay && !expandedType.done) {
-            expandedViewHolder.containerView.doneCb.visibility = View.INVISIBLE
             tv.paintFlags = tv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             listener.onPay(expandedType)
         }

@@ -31,6 +31,7 @@ import com.ataei.abbas.karam.jobs.JobViewModel
 import com.ataei.abbas.karam.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_job.*
+import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private var editTextWidth: Int = 0
     private var buttonWidth: Int = 0
     private var currentDate: String = ""
+    private var ransom: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +74,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
             mItemInputEditText.setOnEditorActionListener { v, actionId, event ->
                 if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     if (mItemInputEditText.text!!.isNotEmpty()) {
-                        val newJob = Job(null, mItemInputEditText.text.toString(), 1000, false, currentDate, true, currentDate, false)
+                        val newJob = Job(null, mItemInputEditText.text.toString(), ransom, false, currentDate, true, currentDate, false, 1)
                         viewModel.insertJob(newJob)
                         mItemInputEditText.setText("")
                         Handler().postDelayed({
@@ -97,7 +99,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
             val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clk)
             addJobBtn.startAnimation(rotate)
         }
-
+        observeRansom()
     }
 
     private fun insertDay(date: String) {
@@ -120,7 +122,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private fun insertNewJobs() {
         CoroutineScope(Dispatchers.Main).launch {
             for (job in jobList) {
-                val j = Job(null, job.title, 1000, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate, false)
+                val j = Job(null, job.title, ransom, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate, false, 1)
                 viewModel.insertJob(j)
             }
         }
@@ -209,7 +211,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     }
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
-        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId, false)
+        val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId, false, 1)
         Handler().postDelayed({
             viewModel.updateJob(newJob)
         }, 500)
@@ -231,7 +233,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
             complete = job.done
             jobId = job.id!!
             customPopup.dismiss()
-            val dialog = EditDialog.newInstance(job.repeat, job.title, job.ransom.toString())
+            val dialog = EditDialog.newInstance(job.repeat, job.title, job.ransom)
             dialog.show(childFragmentManager, dialog.tag)
         }
         val removeBtn = root.findViewById<TextView>(R.id.removeJobTv)
@@ -270,7 +272,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     }
 
     override fun onDismiss(title: String, ransom: String, repeat: Boolean) {
-        val mJob = Job(jobId, title, ransom.toInt(), complete, currentDate, repeat, currentDate, false)
+        val mJob = Job(jobId, title, ransom, complete, currentDate, repeat, currentDate, false, 1)
         viewModel.updateJob(mJob)
     }
 
@@ -305,7 +307,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private fun insertNewList(list: List<Daily>) {
         lifecycleScope.launch(Dispatchers.IO) {
             for (item in list) {
-                val job = Job(null, item.title, 1000, false, currentDate, true, currentDate, false)
+                val job = Job(null, item.title, ransom, false, currentDate, true, currentDate, false, 1)
                 viewModel.insertJob(job)
             }
         }
@@ -313,5 +315,11 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
 
     override fun onConfirm() {
         getDailies()
+    }
+
+    private fun observeRansom() {
+        viewModel.savedRansom.observe(viewLifecycleOwner, {
+            ransom = it
+        })
     }
 }

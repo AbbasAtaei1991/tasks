@@ -26,17 +26,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/payIv"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/doneCb"
+            app:layout_constraintStart_toEndOf="@id/ransomTv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/doneCb"
+            android:id="@+id/ransomTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="پرداخت جریمه"
             android:textColor="@color/teal_700"
             android:textSize="14sp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/childTitleTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
