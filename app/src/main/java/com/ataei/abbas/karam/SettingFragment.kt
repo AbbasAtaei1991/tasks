@@ -1,32 +1,29 @@
 package com.ataei.abbas.karam
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ataei.abbas.karam.data.model.Daily
-import com.ataei.abbas.karam.data.model.Job
-import com.ataei.abbas.karam.settings.DailyViewModel
+import com.ataei.abbas.karam.settings.SettingViewModel
 import com.ataei.abbas.karam.utils.DailyAdapter
 import com.ataei.abbas.karam.utils.OnMenuClick
+import com.ataei.abbas.karam.utils.UiMode
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_job.*
 import kotlinx.android.synthetic.main.fragment_setting.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingFragment : Fragment(), OnMenuClick {
-    private val viewModel: DailyViewModel by viewModels()
+    private val viewModel: SettingViewModel by viewModels()
     private lateinit var adapter: DailyAdapter
 
     override fun onCreateView(
@@ -63,6 +60,12 @@ class SettingFragment : Fragment(), OnMenuClick {
             false
         }
         observeRansom()
+        uiModeSw.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked) {
+                true -> viewModel.saveUiMode(UiMode.DARK)
+                false -> viewModel.saveUiMode(UiMode.LIGHT)
+            }
+        }
     }
 
     private fun getAll() {

@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:visibility="invisible"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/dots_vertical" />
 
@@ -34,8 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:text="وظایف"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 

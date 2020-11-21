@@ -7,10 +7,11 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.ataei.abbas.karam.data.model.Daily
 import com.ataei.abbas.karam.jobs.JobRepository
+import com.ataei.abbas.karam.utils.UiMode
 import com.ataei.abbas.karam.utils.UserPreferenceRepository
 import kotlinx.coroutines.launch
 
-class DailyViewModel @ViewModelInject constructor(
+class SettingViewModel @ViewModelInject constructor(
     private val repository: JobRepository,
     private val userPreferenceRepository: UserPreferenceRepository
 ) : ViewModel() {
@@ -31,6 +32,12 @@ class DailyViewModel @ViewModelInject constructor(
     fun saveRansom(ransom: String) {
         viewModelScope.launch {
             userPreferenceRepository.saveRansom(ransom)
+        }
+    }
+
+    fun saveUiMode(uiMode: UiMode) {
+        viewModelScope.launch {
+            userPreferenceRepository.setUiMode(uiMode)
         }
     }
 }

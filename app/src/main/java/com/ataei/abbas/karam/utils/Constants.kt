@@ -6,5 +6,6 @@ class Constants {
         const val VIEW_TYPE_PENDING = 2
         const val PREFERENCE_NAME = "user_preference"
         const val RANSOM_KEY = "ransom_key"
+        const val UI_KEY = "ransom_key"
     }
 }
