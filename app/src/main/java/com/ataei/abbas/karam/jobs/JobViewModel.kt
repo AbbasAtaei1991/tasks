@@ -44,4 +44,6 @@ class JobViewModel @ViewModelInject constructor(
 
     val savedRansom: LiveData<String> = userPreferenceRepository.getRansom().asLiveData()
 
+    fun clear() = repository.clear()
+
 }

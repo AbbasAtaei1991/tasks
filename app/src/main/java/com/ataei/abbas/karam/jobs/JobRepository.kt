@@ -50,4 +50,6 @@ class JobRepository @Inject constructor(
     suspend fun update(daily: Daily) = dailyDao.update(daily)
 
     suspend fun delete(daily: Daily) = dailyDao.delete(daily)
+
+    fun clear() = jobDao.clear()
 }

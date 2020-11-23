@@ -61,7 +61,6 @@ class SettingFragment : Fragment(), OnMenuClick {
                     viewModel.saveRansom(etRansom.text.toString())
                     etRansom.isEnabled = false
                 }
-
             }
             false
         }

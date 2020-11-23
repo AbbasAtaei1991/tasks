@@ -37,4 +37,7 @@ interface JobDao {
 
     @Delete
     suspend fun deleteJob(job: Job)
+
+    @Query("DELETE FROM jobs")
+    fun clear()
 }

@@ -11,7 +11,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
@@ -31,7 +30,6 @@ import com.ataei.abbas.karam.jobs.JobViewModel
 import com.ataei.abbas.karam.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_job.*
-import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +41,7 @@ import kotlin.collections.ArrayList
 class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirmListener {
     private val viewModel: JobViewModel by viewModels()
     private lateinit var adapter: JobAdapter
+    private lateinit var mInflater: LayoutInflater
     private var jobList: MutableList<Job> = ArrayList()
     private var dailyList: MutableList<Daily> = ArrayList()
     private var complete: Boolean = false
@@ -57,6 +56,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         currentDate = DateUtils.getTimeStampFromDate(Date())
         insertDay(currentDate)
         return inflater.inflate(R.layout.fragment_job, container, false)
@@ -95,6 +95,27 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         showHideBtn()
         dateTv.text = DateUtils.getShamsiDate(Date())
         observeRansom()
+        deleteMenu.setOnClickListener { onOptionsItemSelected() }
+    }
+
+    private fun onOptionsItemSelected() {
+        val root = mInflater.inflate(R.layout.delet_menu, null)
+        val customPopup = PopupWindow(
+            root,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            customPopup.elevation = 10.0F
+        }
+        val removeBtn = root.findViewById<TextView>(R.id.removeAllTv)
+        removeBtn.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) { viewModel.clear() }
+            customPopup.dismiss()
+        }
+        customPopup.isFocusable = true
+        customPopup.setBackgroundDrawable(null)
+        customPopup.showAsDropDown(deleteMenu)
     }
 
     private fun insertDay(date: String) {
@@ -213,8 +234,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     }
 
     override fun onMenuClicked(job: Job, view: View) {
-        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.custom_popup, null)
+        val root = mInflater.inflate(R.layout.custom_popup, null)
         val customPopup = PopupWindow(
             root,
             ConstraintLayout.LayoutParams.WRAP_CONTENT,
