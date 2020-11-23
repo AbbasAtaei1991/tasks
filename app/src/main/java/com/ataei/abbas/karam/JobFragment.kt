@@ -94,11 +94,6 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         getJobsByDate(currentDate)
         showHideBtn()
         dateTv.text = DateUtils.getShamsiDate(Date())
-
-        dateCv.setOnClickListener {
-            val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clk)
-            addJobBtn.startAnimation(rotate)
-        }
         observeRansom()
     }
 

@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.ataei.abbas.karam.data.model.Daily
 import com.ataei.abbas.karam.settings.SettingViewModel
 import com.ataei.abbas.karam.utils.DailyAdapter
@@ -20,11 +22,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class SettingFragment : Fragment(), OnMenuClick {
     private val viewModel: SettingViewModel by viewModels()
     private lateinit var adapter: DailyAdapter
+    private var isCollapsed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +52,14 @@ class SettingFragment : Fragment(), OnMenuClick {
         }
         getAll()
         ransomBtn.setOnClickListener {
+            etRansom.isEnabled = true
             etRansom.setText("")
         }
         etRansom.setOnEditorActionListener { v, actionId, event ->
             if ((event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                 if (etRansom.text!!.isNotEmpty()) {
                     viewModel.saveRansom(etRansom.text.toString())
+                    etRansom.isEnabled = false
                 }
 
             }
@@ -64,6 +70,19 @@ class SettingFragment : Fragment(), OnMenuClick {
             when(isChecked) {
                 true -> viewModel.saveUiMode(UiMode.DARK)
                 false -> viewModel.saveUiMode(UiMode.LIGHT)
+            }
+        }
+        aboutAppCv.setOnClickListener {
+            isCollapsed = if (isCollapsed) {
+                expand(aboutAppCv)
+                aboutAppRl.visibility = View.GONE
+                appDescTv.visibility = View.VISIBLE
+                false
+            } else {
+                collapse(aboutAppCv)
+                aboutAppRl.visibility = View.VISIBLE
+                appDescTv.visibility = View.GONE
+                true
             }
         }
     }
@@ -103,6 +122,28 @@ class SettingFragment : Fragment(), OnMenuClick {
         viewModel.savedRansom.observe(viewLifecycleOwner, {
             etRansom.setText(it)
         })
+    }
+
+    private fun expand(view: ViewGroup) {
+        TransitionManager.beginDelayedTransition(
+            view, TransitionSet()
+                .addTransition(ChangeBounds())
+        )
+
+        val params = view.layoutParams
+        params.height = resources.getDimension(R.dimen.newHeight).roundToInt()
+        view.layoutParams = params
+    }
+
+    private fun collapse(view: ViewGroup) {
+        TransitionManager.beginDelayedTransition(
+            view, TransitionSet()
+                .addTransition(ChangeBounds())
+        )
+
+        val params = view.layoutParams
+        params.height = resources.getDimension(R.dimen.oldHeight).roundToInt()
+        view.layoutParams = params
     }
 
 }
