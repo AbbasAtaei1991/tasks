@@ -1,5 +1,7 @@
 package com.ataei.abbas.karam
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -84,6 +86,29 @@ class SettingFragment : Fragment(), OnMenuClick {
                 true
             }
         }
+        initListeners()
+    }
+
+    private fun initListeners() {
+        instaIv.setOnClickListener {
+            startActivity(desIntent("https://www.instagram.com/a__ataei"))
+        }
+        telegramIv.setOnClickListener {
+            startActivity(desIntent("https://telegram.me/a1b9b9a1s"))
+        }
+        linkedInIv.setOnClickListener {
+            startActivity(desIntent("https://www.linkedin.com/in/abbas-ataei-32a23415a/"))
+        }
+        aparatIv.setOnClickListener {
+            startActivity(desIntent("https://www.aparat.com/abbas_1991"))
+        }
+        youtubeIv.setOnClickListener {
+            startActivity(desIntent("https://www.youtube.com/channel/UCh0DIVIpqAltVkr3fgDFHqw"))
+        }
+    }
+
+    private fun desIntent(uri: String): Intent {
+        return Intent(Intent.ACTION_VIEW, Uri.parse(uri))
     }
 
     private fun getAll() {

@@ -43,9 +43,4 @@ object AppModule {
     @Provides
     fun provideDailyRepository(dailyDao: DailyDao) = SettingRepository(dailyDao)
 
-    @Singleton
-    @Provides
-    fun provideUserPreferenceRepository(@ApplicationContext context: Context): UserPreferenceRepository {
-        return UserPreferenceRepository(context)
-    }
 }

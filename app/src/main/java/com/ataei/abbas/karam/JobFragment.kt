@@ -15,7 +15,6 @@ import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -42,7 +41,6 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private val viewModel: JobViewModel by viewModels()
     private lateinit var adapter: JobAdapter
     private lateinit var mInflater: LayoutInflater
-    private var jobList: MutableList<Job> = ArrayList()
     private var dailyList: MutableList<Daily> = ArrayList()
     private var complete: Boolean = false
     private var jobId: Int = 0
@@ -91,11 +89,15 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
             LinearLayoutManager.VERTICAL,
             false
         )
-        getJobsByDate(currentDate)
         showHideBtn()
         dateTv.text = DateUtils.getShamsiDate(Date())
         observeRansom()
         deleteMenu.setOnClickListener { onOptionsItemSelected() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getJobsByDate(currentDate)
     }
 
     private fun onOptionsItemSelected() {
@@ -121,27 +123,6 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private fun insertDay(date: String) {
         val day = Day(date, 0, false)
         viewModel.insertDay(day)
-    }
-
-    private fun getLast() {
-        viewModel.last.observe(viewLifecycleOwner, {
-            Handler().postDelayed({
-                Toast.makeText(requireContext(), DateUtils.getTimeStampFromDate(Date()), Toast.LENGTH_SHORT).show()
-            }, 4000)
-            if (it.date != DateUtils.getTimeStampFromDate(Date())) {
-                getJobsByDate(it.date)
-                insertNewJobs()
-            }
-        })
-    }
-
-    private fun insertNewJobs() {
-        CoroutineScope(Dispatchers.Main).launch {
-            for (job in jobList) {
-                val j = Job(null, job.title, ransom, false, DateUtils.getTimeStampFromDate(Date()), true, currentDate, false, 1)
-                viewModel.insertJob(j)
-            }
-        }
     }
 
     private fun showEditText() {
@@ -269,18 +250,11 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.getJobsByDate(date).observe(viewLifecycleOwner, {
                 if (it != null) {
-                    for (item in it) {
-                        jobList.clear()
-                        jobList.add(item)
-                    }
                     adapter = JobAdapter(it, requireContext(), this@JobFragment)
                     jobRec.adapter = adapter
                     if (it.isEmpty()) {
-                        val dialog = ConfirmDialog()
-                        dialog.show(childFragmentManager, dialog.tag)
+                        hasDaily()
                     }
-                } else {
-//                    getLast()
                 }
             })
         }
@@ -315,6 +289,15 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
                     dailyList.add(item)
                 }
                 insertNewList(dailyList)
+            }
+        })
+    }
+
+    private fun hasDaily() {
+        viewModel.items.observe(viewLifecycleOwner, {
+            if (it.isNotEmpty()) {
+                val dialog = ConfirmDialog()
+                dialog.show(childFragmentManager, dialog.tag)
             }
         })
     }

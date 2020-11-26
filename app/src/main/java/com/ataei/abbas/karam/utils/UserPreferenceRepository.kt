@@ -18,7 +18,17 @@ class UserPreferenceRepository @Inject constructor(@ActivityContext context: Con
 
     companion object {
         val IS_DARK_MODE = preferencesKey<Boolean>("dark_mode")
+        const val FIRST_KEY = "first_launch"
     }
+
+    suspend fun saveFirstLaunch(save:Boolean) {
+        dataStore.edit { preference->
+            preference[preferencesKey<Boolean>(FIRST_KEY)] = save
+        }
+    }
+
+    fun fetchFirstLaunch() = dataStore.data.map {preference->
+        preference[preferencesKey<Boolean>(FIRST_KEY)] ?: true  }
 
     val uiModeFlow: Flow<UiMode> = dataStore.data
         .catch {

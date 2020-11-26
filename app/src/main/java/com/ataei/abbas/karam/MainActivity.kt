@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.ataei.abbas.karam.utils.DateUtils
 import com.ataei.abbas.karam.utils.UiMode
 import com.ataei.abbas.karam.utils.UserPreferenceRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,16 +23,23 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userPreferenceRepository: UserPreferenceRepository
-    private var date = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setDate()
+        btnNavView.selectedItemId = R.id.navigation_job
+        lifecycleScope.launch(Dispatchers.Main) {
+            val firsLaunch = userPreferenceRepository.fetchFirstLaunch().first()
+            if (firsLaunch) {
+                findController().navigate(R.id.ransomFragment)
+                btnNavView.selectedItemId = R.id.navigation_ransom
+                userPreferenceRepository.saveFirstLaunch(false)
+            }
+        }
         observeUiMode()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.WHITE
         }
-        btnNavView.selectedItemId = R.id.navigation_job
         btnNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_job -> {
@@ -58,12 +66,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
-    }
-
-    private fun setDate() {
-        val sdf: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val currentDateTime = sdf.format(Date())
-        date = DateUtils.getShamsiDate(Date())!!
     }
 
     private fun observeUiMode() {
