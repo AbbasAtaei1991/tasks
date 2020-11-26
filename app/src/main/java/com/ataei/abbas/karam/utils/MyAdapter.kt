@@ -4,8 +4,8 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.ataei.abbas.karam.R
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.data.model.Parent
@@ -39,6 +39,9 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
     ) {
         val date = DateUtils.getDateFromString(expandableType.day.date)
         parentViewHolder.containerView.tvDate.text = DateUtils.getShamsi(date)
+        if (expandableType.jobs.isNotEmpty()) {
+            parentViewHolder.containerView.chevronIv.visibility = View.VISIBLE
+        }
         var d = 0
         for (job in expandableType.jobs) {
             if (job.done){
@@ -54,9 +57,9 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         val pieList = ArrayList<PieEntry>()
         val colorList = ArrayList<Int>()
         pieList.add(PieEntry(percent, ""))
-        colorList.add(chart.context.resources.getColor(R.color.teal_200))
+        colorList.add(ContextCompat.getColor(chart.context, R.color.teal_200))
         pieList.add(PieEntry((100 - percent), ""))
-        colorList.add(chart.context.resources.getColor(R.color.red))
+        colorList.add(ContextCompat.getColor(chart.context, R.color.light_red))
         val pieDataSet = PieDataSet(pieList, "")
         pieDataSet.colors = colorList
         val pieData = PieData(pieDataSet)
@@ -131,13 +134,17 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
     class CViewHolder(v: View) : ExpandableRecyclerViewAdapter.ExpandedViewHolder(v)
 
     override fun onStateChange(expandableViewHolder: PViewHolder, expandableType: Parent) {
-        val arrow: ImageView = expandableViewHolder.containerView.chevronIv
 //        val rotate = AnimationUtils.loadAnimation(expandableViewHolder.containerView.context, R.anim.rotate_clk)
-//        arrow.startAnimation(rotate)
-//        if (expandableType.isExpanded) {
-//            arrow.setImageResource(R.drawable.chevron_up)
-//        } else {
-//            arrow.setImageResource(R.drawable.chevron_down)
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val arrowDown: ImageView = expandableViewHolder.containerView.chevronIv
+//            val arrowUp: ImageView = expandableViewHolder.containerView.chevronUpIv
+//            if (expandableType.isExpanded) {
+//                arrowDown.visibility = View.INVISIBLE
+//                arrowUp.visibility = View.VISIBLE
+//            } else {
+//                arrowDown.visibility = View.VISIBLE
+//                arrowUp.visibility = View.INVISIBLE
+//            }
 //        }
     }
 }

@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="تنظیمات"
+                android:text="@string/settings"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="کارهایی که هر روز باید انجام دهم :"
+                android:text="@string/todo"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +111,7 @@
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/et_bg"
                         android:gravity="center"
-                        android:hint="عنوان"
+                        android:hint="@string/title"
                         android:textColor="@color/secondary_text_color"
                         android:textColorHint="@color/hint_color"
                         android:textSize="14sp"
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:text="جریمه پیش فرض :"
+                android:text="@string/default_ransom"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -187,7 +187,7 @@
                         android:background="@color/white"
                         android:enabled="false"
                         android:gravity="center"
-                        android:hint="جریمه"
+                        android:hint="@string/ran"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:padding="12dp"
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="حالت شب:"
+                        android:text="@string/dark_mode"
                         android:textColor="@color/secondary_text_color"
                         android:textSize="14sp" />
 
@@ -260,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:text="درباره برنامه"
+                android:text="@string/about_app"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -298,7 +298,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="(بیشتر)"
+                            android:text="@string/more"
                             android:textColor="@color/teal_200"
                             android:textSize="14sp" />
 
@@ -310,7 +310,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:paddingStart="8dp"
-                            android:text="این برنامه به شما کمک می کند تا عادتهای رفتاری مثبت را با استفاده از تکنیک"
+                            android:text="@string/desc"
                             android:textColor="@color/secondary_text_color"
                             android:textSize="14sp" />
 
@@ -321,7 +321,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="این برنامه به شما کمک می کند تا عادات رفتاری مثبت را با استفاده از تکنیک خودتنبیهی، در خود تثبیت کنید.شما می توانید کارهایی که دوست دارید هر روز انجام دهید را ثبت کنید و برای انجام ندادن آن یک جریمه در نظر بگیرید.جریمه می تواند پرداخت مبلغی به عنوان صدقه به نیازمندان باشد یا انجام یک حرکت ورزشی یا هر کاری که مناسب شرایط شماست باشد،به عنوان مثال ۲۰ بار انجام حرکت دراز نشست به ازای هر کار انجام نشده.در بخش گزارش شما می توانید لیست کلیه کارهای یک ماه اخیر خود را به همراه نمودار مشاهده کنید."
+                        android:text="@string/app_desc"
                         android:textColor="@color/secondary_text_color"
                         android:textSize="14sp"
                         android:visibility="gone"
@@ -365,7 +365,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="با ما در ارتباط باشید"
+                        android:text="@string/with_us"
                         android:textColor="@color/secondary_text_color"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -439,7 +439,7 @@
                 android:visibility="gone"
                 android:padding="2dp"
                 android:gravity="center"
-                android:text="نسخه ۱.۰"
+                android:text="@string/version"
                 android:textColor="@color/black"
                 android:textSize="14sp"/>
 

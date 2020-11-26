@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">کارینو</string>
+    <string name="edit">ویرایش</string>
+    <string name="delete">حذف</string>
+    <string name="delete_all">حذف همه موارد</string>
+    <string name="add_list">آیا تمایل دارید کارهای روزانه را به لیست امروز اضافه کنید؟</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
+    <string name="edit_title">ویرایش عنوان و میزان جریمه انجام ندادن</string>
+    <string name="title">عنوان</string>
+    <string name="ransom">جریمه در صورت انجام ندادن</string>
+    <string name="repeat">هر روز تکرار شود</string>
+    <string name="report">گزارش</string>
+    <string name="your_chart">نمودار عملکرد شما تا به امروز</string>
+    <string name="undone">انجام نشده</string>
+    <string name="done">انجام شده</string>
+    <string name="add">افزودن</string>
+    <string name="settings">تنظیمات</string>
+    <string name="todo">کارهایی که هر روز باید انجام دهم :</string>
+    <string name="default_ransom">جریمه پیش فرض :</string>
+    <string name="ran">جریمه</string>
+    <string name="dark_mode">حالت شب:</string>
+    <string name="about_app">درباره برنامه</string>
+    <string name="more">(بیشتر)</string>
+    <string name="desc">این برنامه به شما کمک می کند تا عادتهای رفتاری مثبت را با استفاده از تکنیک</string>
+    <string name="app_desc">این برنامه به شما کمک می کند تا عادات رفتاری مثبت را با استفاده از تکنیک خودتنبیهی، در خود تثبیت کنید.شما می توانید کارهایی که دوست دارید هر روز انجام دهید را ثبت کنید و برای انجام ندادن آن یک جریمه در نظر بگیرید.جریمه می تواند پرداخت مبلغی به عنوان صدقه به نیازمندان باشد یا انجام یک حرکت ورزشی یا هر کاری که مناسب شرایط شماست باشد،به عنوان مثال ۲۰ بار انجام حرکت دراز نشست به ازای هر کار انجام نشده.در بخش گزارش شما می توانید لیست کلیه کارهای یک ماه اخیر خود را به همراه نمودار مشاهده کنید.</string>
+    <string name="with_us">با ما در ارتباط باشید</string>
+    <string name="version">نسخه ۱.۰</string>
+    <string name="add_dailies">افزودن لیست روزانه</string>
 </resources>

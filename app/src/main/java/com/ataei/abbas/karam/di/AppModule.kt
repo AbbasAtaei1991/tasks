@@ -6,8 +6,6 @@ import com.ataei.abbas.karam.data.model.AppDatabase
 import com.ataei.abbas.karam.data.dao.DayDao
 import com.ataei.abbas.karam.data.dao.JobDao
 import com.ataei.abbas.karam.jobs.JobRepository
-import com.ataei.abbas.karam.settings.SettingRepository
-import com.ataei.abbas.karam.utils.UserPreferenceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,9 +36,5 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepository(jobDao: JobDao, dayDao: DayDao, dailyDao: DailyDao) = JobRepository(jobDao, dayDao, dailyDao)
-
-    @Singleton
-    @Provides
-    fun provideDailyRepository(dailyDao: DailyDao) = SettingRepository(dailyDao)
 
 }

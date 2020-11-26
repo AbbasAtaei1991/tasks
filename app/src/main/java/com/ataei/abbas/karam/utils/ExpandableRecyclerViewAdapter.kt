@@ -3,7 +3,6 @@ package com.ataei.abbas.karam.utils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

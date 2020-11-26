@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,12 +20,12 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_debt.*
+import kotlinx.android.synthetic.main.fragment_report.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DebtFragment : Fragment(), OnStatusClickListener {
+class ReportFragment : Fragment(), OnStatusClickListener {
     private val viewModel: DeptViewModel by viewModels()
     private lateinit var adapter: MyAdapter
     private var parents: ArrayList<Parent> = ArrayList()
@@ -37,7 +38,7 @@ class DebtFragment : Fragment(), OnStatusClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_debt, container, false)
+        val view = inflater.inflate(R.layout.fragment_report, container, false)
         mainChart = view.findViewById(R.id.mainChart)
         return view
     }
@@ -61,7 +62,7 @@ class DebtFragment : Fragment(), OnStatusClickListener {
             }
 
             launch(Dispatchers.Main) {
-                adapter = MyAdapter(parents, this@DebtFragment)
+                adapter = MyAdapter(parents, this@ReportFragment)
                 pendingRv.adapter = adapter
                 getJobsListSize()
             }
@@ -87,9 +88,9 @@ class DebtFragment : Fragment(), OnStatusClickListener {
         val pieList = ArrayList<PieEntry>()
         val colorList = ArrayList<Int>()
         pieList.add(PieEntry(percent, ""))
-        colorList.add(chart.context.resources.getColor(R.color.teal_200))
+        colorList.add(ContextCompat.getColor(chart.context, R.color.teal_200))
         pieList.add(PieEntry((100 - percent), ""))
-        colorList.add(chart.context.resources.getColor(R.color.red))
+        colorList.add(ContextCompat.getColor(chart.context, R.color.light_red))
         val pieDataSet = PieDataSet(pieList, "")
         pieDataSet.colors = colorList
         val pieData = PieData(pieDataSet)

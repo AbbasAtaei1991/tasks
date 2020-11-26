@@ -2,7 +2,6 @@ package com.ataei.abbas.karam.data.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.ataei.abbas.karam.utils.ExpandableRecyclerViewAdapter
 
 data class DayWithJobs(
     @Embedded

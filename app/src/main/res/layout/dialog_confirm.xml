@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="آیا تمایل دارید کارهای روزانه را به لیست امروز اضافه کنید؟"
+        android:text="@string/add_list"
         android:textSize="14sp"
         android:textColor="@android:color/black"
         android:layout_marginBottom="24dp"/>
@@ -25,7 +25,7 @@
         android:layout_below="@id/desc_text"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="12dp"
-        android:text="بله"
+        android:text="@string/yes"
         android:textColor="@color/white"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -36,7 +36,7 @@
         android:layout_below="@id/desc_text"
         android:layout_alignParentStart="true"
         android:layout_marginStart="12dp"
-        android:text="خیر"
+        android:text="@string/no"
         android:textColor="@color/white"/>
 
 </RelativeLayout>

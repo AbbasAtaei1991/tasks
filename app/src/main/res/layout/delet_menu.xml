@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/removeAllTv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:drawableEnd="@drawable/delete_outline"
-        android:drawablePadding="12dp"
-        android:text="حذف همه موارد"
-        android:textColor="@color/black" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/removeAllTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/delete_all"
+            android:textColor="@color/black"
+            app:drawableEndCompat="@drawable/delete_outline" />
+
+        <TextView
+            android:id="@+id/insertDailiesTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/add_dailies"
+            android:textColor="@color/black"
+            app:drawableEndCompat="@drawable/ic_add_list" />
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

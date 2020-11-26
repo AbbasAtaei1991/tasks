@@ -31,7 +31,5 @@ class DeptViewModel @ViewModelInject constructor(
         JobHolder(jobs)
     }
 
-    val jobList: LiveData<JobHolder> = jobFlow.asLiveData()
-
     data class JobHolder(val jobs: List<Job>)
 }

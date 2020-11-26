@@ -27,8 +27,6 @@ class JobRepository @Inject constructor(
 
     fun getJobsByDate(date: String) = jobDao.getJobByDate(date)
 
-    fun getJobsByStatus(status: Boolean) = jobDao.getJobByStatus(status)
-
     fun getJobsBy(status: Boolean) = jobDao.getJobsBy(status)
 
     suspend fun insertAll(jobs: List<Job>) = jobDao.insertAll(jobs)
@@ -51,5 +49,5 @@ class JobRepository @Inject constructor(
 
     suspend fun delete(daily: Daily) = dailyDao.delete(daily)
 
-    fun clear() = jobDao.clear()
+    fun clear(date: String) = jobDao.clear(date)
 }

@@ -19,9 +19,9 @@
     </fragment>
     <fragment
         android:id="@+id/debtFragment"
-        android:name="com.ataei.abbas.karam.DebtFragment"
+        android:name="com.ataei.abbas.karam.ReportFragment"
         android:label="DebtFragment"
-        tools:layout="@layout/fragment_debt"/>
+        tools:layout="@layout/fragment_report"/>
     <fragment
         android:id="@+id/ransomFragment"
         android:name="com.ataei.abbas.karam.SettingFragment"

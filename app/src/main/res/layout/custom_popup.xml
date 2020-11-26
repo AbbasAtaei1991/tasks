@@ -18,21 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:drawableEnd="@drawable/pencil_outline"
             android:drawablePadding="12dp"
-            android:text="ویرایش"
-            android:textColor="@color/black" />
+            android:text="@string/edit"
+            android:textColor="@color/black"
+            app:drawableEndCompat="@drawable/pencil_outline" />
 
         <TextView
             android:id="@+id/removeJobTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:drawableEnd="@drawable/delete_outline"
             android:drawablePadding="12dp"
             android:layout_marginTop="16dp"
-            android:text="حذف"
-            android:textColor="@color/black" />
+            android:text="@string/delete"
+            android:textColor="@color/black"
+            app:drawableEndCompat="@drawable/delete_outline" />
 
 
     </LinearLayout>

@@ -16,12 +16,12 @@ object DateUtils {
         var year = 0
 
         constructor() {
-            val MiladiDate = Date()
-            calcSolarCalendar(MiladiDate)
+            val miladiDate = Date()
+            calcSolarCalendar(miladiDate)
         }
 
-        constructor(MiladiDate: Date) {
-            calcSolarCalendar(MiladiDate)
+        constructor(miladiDate: Date) {
+            calcSolarCalendar(miladiDate)
         }
 
         private fun calcSolarCalendar(MiladiDate: Date) {

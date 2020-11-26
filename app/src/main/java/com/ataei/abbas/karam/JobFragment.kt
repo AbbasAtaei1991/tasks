@@ -6,7 +6,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_job.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
@@ -75,11 +75,11 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
                         val newJob = Job(null, mItemInputEditText.text.toString(), ransom, false, currentDate, true, currentDate, false, 1)
                         viewModel.insertJob(newJob)
                         mItemInputEditText.setText("")
-                        Handler().postDelayed({
+                        lifecycleScope.launch {
+                            delay(300L)
                             hideEditText()
-                        }, 300)
+                        }
                     }
-
                 }
                 false
             }
@@ -112,7 +112,12 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         }
         val removeBtn = root.findViewById<TextView>(R.id.removeAllTv)
         removeBtn.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) { viewModel.clear() }
+            lifecycleScope.launch(Dispatchers.IO) { viewModel.clear(currentDate) }
+            customPopup.dismiss()
+        }
+        val addDailiesBtn = root.findViewById<TextView>(R.id.insertDailiesTv)
+        addDailiesBtn.setOnClickListener {
+            getDailies()
             customPopup.dismiss()
         }
         customPopup.isFocusable = true
@@ -209,9 +214,10 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
 
     override fun onStatusClicked(job: Job, position: Int, isDone: Boolean) {
         val newJob = Job(job.id, job.title, job.ransom, isDone, job.date, job.repeat, job.dayId, false, 1)
-        Handler().postDelayed({
+        lifecycleScope.launch {
+            delay(500L)
             viewModel.updateJob(newJob)
-        }, 500)
+        }
     }
 
     override fun onMenuClicked(job: Job, view: View) {
