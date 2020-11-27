@@ -1,4 +1,6 @@
-# tasks
+# tasks  
+<img src="screenshots/2.gif" align="right" width="33%" />
+
 A simple app for manage daily routines written in kotlin.
 
 Used components and tools :
@@ -18,7 +20,3 @@ Used components and tools :
 * MPAndroidChart
 
 * Dagger-Hilt
-
-Screenshot:
-
-![alt text](https://github.com/AbbasAtaei1991/tasks/blob/master/screenshots/1.jpg?raw=true)
