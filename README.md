@@ -1,5 +1,5 @@
 # tasks  
-<img src="screenshots/2.gif" align="right" width="33%" />
+<img src="/screenshots/2.gif" align="right" width="33%" />
 
 A simple app for manage daily routines written in kotlin.
 
