@@ -1,5 +1,5 @@
 # tasks
-A simple app for manage daily routines writen in kotlin.
+A simple app for manage daily routines written in kotlin.
 
 Used components and tools :
 
