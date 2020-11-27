@@ -3,17 +3,17 @@ A simple app for manage daily routines writen in kotlin.
 
 Used components and tools :
 
-* Room
+* Single Activity
 
-* LiveData
+* Navigation Component
+
+* Repository Pattern
 
 * ViewModel
 
-* Coroutines
+* LiveData
 
-* Flow
-
-* Navigation 
+* Room
 
 * MPAndroidChart
 
