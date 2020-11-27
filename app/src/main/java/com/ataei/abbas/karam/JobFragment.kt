@@ -43,6 +43,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
     private lateinit var mInflater: LayoutInflater
     private var dailyList: MutableList<Daily> = ArrayList()
     private var complete: Boolean = false
+    private var show: Boolean = true
     private var jobId: Int = 0
     private var editTextWidth: Int = 0
     private var buttonWidth: Int = 0
@@ -112,7 +113,10 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
         }
         val removeBtn = root.findViewById<TextView>(R.id.removeAllTv)
         removeBtn.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) { viewModel.clear(currentDate) }
+            lifecycleScope.launch(Dispatchers.IO) {
+                show = false
+                viewModel.clear(currentDate)
+            }
             customPopup.dismiss()
         }
         val addDailiesBtn = root.findViewById<TextView>(R.id.insertDailiesTv)
@@ -301,7 +305,7 @@ class JobFragment : Fragment(), OnStatusClickListener, DialogListener, OnConfirm
 
     private fun hasDaily() {
         viewModel.items.observe(viewLifecycleOwner, {
-            if (it.isNotEmpty()) {
+            if (it.isNotEmpty() && show) {
                 val dialog = ConfirmDialog()
                 dialog.show(childFragmentManager, dialog.tag)
             }
