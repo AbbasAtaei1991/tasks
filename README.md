@@ -1,5 +1,7 @@
 # tasks  
 
+<img src="/screenshots/a.gif" align="right" width="33%" /> 
+
 A simple app for manage daily routines written in kotlin.
 
 Used components and tools :
@@ -21,6 +23,3 @@ Used components and tools :
 * Dagger-Hilt
 
 * DataStore
-
-## ScreenShot  
-![hippo]("https://media.giphy.com/media/7m3vPPj1FPDt7s266B/giphy.gif")
