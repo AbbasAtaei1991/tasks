@@ -18,6 +18,8 @@ Used components and tools :
 
 * Room
 
+* Coroutines
+
 * MPAndroidChart
 
 * Dagger-Hilt
