@@ -18,24 +18,26 @@
         android:layout_marginBottom="24dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/yes_btn"
+        android:id="@+id/btnYes"
         style="@style/AppTheme.CustomMaterialButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/desc_text"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="12dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/yes"
         android:textColor="@color/white"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/no_btn"
+        android:id="@+id/btnNo"
         style="@style/AppTheme.CustomMaterialButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/desc_text"
         android:layout_alignParentStart="true"
         android:layout_marginStart="12dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/no"
         android:textColor="@color/white"/>
 

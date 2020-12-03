@@ -11,12 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import com.ataei.abbas.karam.R
-import kotlinx.android.synthetic.main.dialog_edit.*
+import com.ataei.abbas.karam.databinding.DialogEditBinding
 import java.lang.ClassCastException
 
 class EditDialog : DialogFragment() {
 
+    private lateinit var binding: DialogEditBinding
     private var listener: DialogListener? = null
     private var repeat: Boolean = true
     private var oldTitle: String = ""
@@ -46,10 +46,11 @@ class EditDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DialogEditBinding.inflate(inflater, container, false)
         repeat = requireArguments().getBoolean("repeat")
         oldTitle = requireArguments().getString("title")!!
         oldRansom = requireArguments().getString("ransom")!!
-        return inflater.inflate(R.layout.dialog_edit, container, false)
+        return binding.root
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,13 +61,13 @@ class EditDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        JobTitleEt.setText(oldTitle)
-        ransomEt.setText(oldRansom)
-        repeatCb.isChecked = repeat
-        confirmBtn.setOnClickListener {
-            if (JobTitleEt.text!!.isNotEmpty() && ransomEt.text!!.isNotEmpty()) {
+        binding.JobTitleEt.setText(oldTitle)
+        binding.ransomEt.setText(oldRansom)
+        binding.repeatCb.isChecked = repeat
+        binding.confirmBtn.setOnClickListener {
+            if (binding.JobTitleEt.text!!.isNotEmpty() && binding.ransomEt.text!!.isNotEmpty()) {
                 dismiss()
-                listener?.onDismiss(JobTitleEt.text.toString(), ransomEt.text.toString(), repeatCb.isChecked)
+                listener?.onDismiss(binding.JobTitleEt.text.toString(), binding.ransomEt.text.toString(), binding.repeatCb.isChecked)
             } else {
                 Toast.makeText(requireContext(), "موارد مورد نیاز را وارد کنید!", Toast.LENGTH_SHORT).show()
             }

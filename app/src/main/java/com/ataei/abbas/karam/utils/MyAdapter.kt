@@ -9,12 +9,12 @@ import androidx.core.content.ContextCompat
 import com.ataei.abbas.karam.R
 import com.ataei.abbas.karam.data.model.Job
 import com.ataei.abbas.karam.data.model.Parent
+import com.ataei.abbas.karam.databinding.ChildRowBinding
+import com.ataei.abbas.karam.databinding.ParentRowBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.android.synthetic.main.child_row.view.*
-import kotlinx.android.synthetic.main.parent_row.view.*
 
 
 class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickListener) :
@@ -23,13 +23,8 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
     ) {
 
     override fun onCreateParentViewHolder(parent: ViewGroup, viewType: Int): PViewHolder {
-        return PViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.parent_row,
-                parent,
-                false
-            )
-        )
+        val binding = ParentRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PViewHolder(binding)
     }
 
     override fun onBindParentViewHolder(
@@ -37,53 +32,12 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         expandableType: Parent,
         position: Int
     ) {
-        val date = DateUtils.getDateFromString(expandableType.day.date)
-        parentViewHolder.containerView.tvDate.text = DateUtils.getShamsi(date)
-        if (expandableType.jobs.isNotEmpty()) {
-            parentViewHolder.containerView.chevronIv.visibility = View.VISIBLE
-        }
-        var d = 0
-        for (job in expandableType.jobs) {
-            if (job.done){
-                d += 1
-            }
-        }
-        val p: Double = (d.toDouble()/expandableType.jobs.size.toDouble()) * 100
-        val pieChart = parentViewHolder.containerView.tvPercent
-        initChart(pieChart, p.toFloat())
-    }
-
-    private fun initChart(chart: PieChart, percent: Float) {
-        val pieList = ArrayList<PieEntry>()
-        val colorList = ArrayList<Int>()
-        pieList.add(PieEntry(percent, ""))
-        colorList.add(ContextCompat.getColor(chart.context, R.color.teal_200))
-        pieList.add(PieEntry((100 - percent), ""))
-        colorList.add(ContextCompat.getColor(chart.context, R.color.light_red))
-        val pieDataSet = PieDataSet(pieList, "")
-        pieDataSet.colors = colorList
-        val pieData = PieData(pieDataSet)
-        pieData.setDrawValues(false)
-        chart.data = pieData
-        with(chart) {
-            isDrawHoleEnabled = true
-            holeRadius = 70F
-            description.isEnabled = false
-            legend.isEnabled = false
-            centerText = percent.toInt().toString()
-            setCenterTextSize(7F)
-            setEntryLabelColor(android.R.color.transparent)
-        }
+        parentViewHolder.bind(expandableType)
     }
 
     override fun onCreateChildViewHolder(child: ViewGroup, viewType: Int): CViewHolder {
-        return CViewHolder(
-            LayoutInflater.from(child.context).inflate(
-                R.layout.child_row,
-                child,
-                false
-            )
-        )
+        val binding = ChildRowBinding.inflate(LayoutInflater.from(child.context), child, false)
+        return CViewHolder(binding)
     }
 
     override fun onBindChildViewHolder(
@@ -92,20 +46,7 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         expandableType: Parent,
         position: Int
     ) {
-        val title: TextView = childViewHolder.containerView.childTitleTv
-        val ran: TextView = childViewHolder.containerView.ransomTv
-        title.text = expandedType.title
-        ran.text = expandedType.ransom
-        if (expandedType.done) {
-            childViewHolder.containerView.payIv.visibility = View.VISIBLE
-            ran.visibility = View.INVISIBLE
-        } else {
-            childViewHolder.containerView.unDoneIv.visibility = View.VISIBLE
-            if (expandedType.pay) {
-                ran.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
-        }
-
+        childViewHolder.bind(expandedType)
     }
 
     override fun onExpandableClick(expandableViewHolder: PViewHolder, expandableType: Parent) {
@@ -122,16 +63,75 @@ class MyAdapter(parents: ArrayList<Parent>, private val listener: OnStatusClickL
         expandedType: Job,
         expandableType: Parent
     ) {
-        val tv: TextView = expandedViewHolder.containerView.ransomTv
-        if (!expandedType.pay && !expandedType.done) {
-            tv.paintFlags = tv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            listener.onPay(expandedType)
-        }
+        expandedViewHolder.onChildClick(expandedType, listener)
     }
     
-    class PViewHolder(v: View) : ExpandableRecyclerViewAdapter.ExpandableViewHolder(v)
+    class PViewHolder(private val binding: ParentRowBinding) : ExpandableRecyclerViewAdapter.ExpandableViewHolder(binding.root) {
+        fun bind(parent: Parent) {
+            val date = DateUtils.getDateFromString(parent.day.date)
+            binding.tvDate.text = DateUtils.getShamsi(date)
+            if (parent.jobs.isNotEmpty()) {
+                binding.chevronIv.visibility = View.VISIBLE
+            }
+            var d = 0
+            for (job in parent.jobs) {
+                if (job.done){
+                    d += 1
+                }
+            }
+            val p: Double = (d.toDouble()/parent.jobs.size.toDouble()) * 100
+            val pieChart = binding.tvPercent
+            initChart(pieChart, p.toFloat())
+        }
 
-    class CViewHolder(v: View) : ExpandableRecyclerViewAdapter.ExpandedViewHolder(v)
+        private fun initChart(chart: PieChart, percent: Float) {
+            val pieList = ArrayList<PieEntry>()
+            val colorList = ArrayList<Int>()
+            pieList.add(PieEntry(percent, ""))
+            colorList.add(ContextCompat.getColor(chart.context, R.color.teal_200))
+            pieList.add(PieEntry((100 - percent), ""))
+            colorList.add(ContextCompat.getColor(chart.context, R.color.light_red))
+            val pieDataSet = PieDataSet(pieList, "")
+            pieDataSet.colors = colorList
+            val pieData = PieData(pieDataSet)
+            pieData.setDrawValues(false)
+            chart.data = pieData
+            with(chart) {
+                isDrawHoleEnabled = true
+                holeRadius = 70F
+                description.isEnabled = false
+                legend.isEnabled = false
+                centerText = percent.toInt().toString()
+                setCenterTextSize(7F)
+                setEntryLabelColor(android.R.color.transparent)
+            }
+        }
+    }
+
+    class CViewHolder(private val binding: ChildRowBinding) : ExpandableRecyclerViewAdapter.ExpandedViewHolder(binding.root) {
+        fun bind(job: Job) {
+            val title: TextView = binding.childTitleTv
+            val ran: TextView = binding.ransomTv
+            title.text = job.title
+            ran.text = job.ransom
+            if (job.done) {
+                binding.payIv.visibility = View.VISIBLE
+                ran.visibility = View.INVISIBLE
+            } else {
+                binding.unDoneIv.visibility = View.VISIBLE
+                if (job.pay) {
+                    ran.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+            }
+        }
+        fun onChildClick(job: Job, listener: OnStatusClickListener) {
+            val tv: TextView = binding.ransomTv
+            if (!job.pay && !job.done) {
+                tv.paintFlags = tv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                listener.onPay(job)
+            }
+        }
+    }
 
     override fun onStateChange(expandableViewHolder: PViewHolder, expandableType: Parent) {
 //        val rotate = AnimationUtils.loadAnimation(expandableViewHolder.containerView.context, R.anim.rotate_clk)

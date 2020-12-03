@@ -9,12 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.ataei.abbas.karam.R
-import kotlinx.android.synthetic.main.dialog_confirm.*
+import com.ataei.abbas.karam.databinding.DialogConfirmBinding
 import java.lang.ClassCastException
 
 class ConfirmDialog : DialogFragment() {
     private var listener: OnConfirmListener? = null
+    private lateinit var binding: DialogConfirmBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -25,8 +25,9 @@ class ConfirmDialog : DialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_confirm, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DialogConfirmBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,10 +38,10 @@ class ConfirmDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        yes_btn.setOnClickListener {
+        binding.btnYes.setOnClickListener {
             listener!!.onConfirm()
             dismiss()
         }
-        no_btn.setOnClickListener { dismiss() }
+        binding.btnNo.setOnClickListener { dismiss() }
     }
 }

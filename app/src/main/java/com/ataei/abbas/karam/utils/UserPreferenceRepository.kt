@@ -1,8 +1,12 @@
 package com.ataei.abbas.karam.utils
 
 import android.content.Context
-import androidx.datastore.DataStore
-import androidx.datastore.preferences.*
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
 import com.ataei.abbas.karam.utils.Constants.Companion.PREFERENCE_NAME
 import com.ataei.abbas.karam.utils.Constants.Companion.RANSOM_KEY
 import com.ataei.abbas.karam.utils.Constants.Companion.UI_KEY
@@ -82,6 +86,6 @@ class UserPreferenceRepository @Inject constructor(@ActivityContext context: Con
             emit(emptyPreferences())
         }
         .map { preferences ->
-            preferences[preferencesKey(RANSOM_KEY)] ?: "هزار تومان"
+            preferences[preferencesKey(RANSOM_KEY)] ?: "هزار تومان صدقه"
         }
 }

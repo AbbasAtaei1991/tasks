@@ -11,6 +11,10 @@ interface DayDao {
     suspend fun insertDay(day: Day)
 
     @Transaction
+    @Delete
+    suspend fun deleteDay(day: Day)
+
+    @Transaction
     @Query("SELECT * FROM days ORDER BY date DESC LIMIT 30")
     fun getDayWithJobs(): List<DayWithJobs>
 

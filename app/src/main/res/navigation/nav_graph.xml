@@ -7,24 +7,24 @@
 
     <fragment
         android:id="@+id/jobFragment"
-        android:name="com.ataei.abbas.karam.JobFragment"
+        android:name="com.ataei.abbas.karam.jobs.JobFragment"
         android:label="JobFragment"
         tools:layout="@layout/fragment_job">
         <action
             android:id="@+id/action_jobFragment_to_ransomFragment"
-            app:destination="@id/ransomFragment" />
+            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_jobFragment_to_debtFragment"
-            app:destination="@id/debtFragment" />
+            app:destination="@id/reportFragment" />
     </fragment>
     <fragment
-        android:id="@+id/debtFragment"
-        android:name="com.ataei.abbas.karam.ReportFragment"
-        android:label="DebtFragment"
+        android:id="@+id/reportFragment"
+        android:name="com.ataei.abbas.karam.report.ReportFragment"
+        android:label="ReportFragment"
         tools:layout="@layout/fragment_report"/>
     <fragment
-        android:id="@+id/ransomFragment"
-        android:name="com.ataei.abbas.karam.SettingFragment"
-        android:label="RansomFragment"
+        android:id="@+id/settingsFragment"
+        android:name="com.ataei.abbas.karam.settings.SettingFragment"
+        android:label="SettingsFragment"
         tools:layout="@layout/fragment_setting"/>
 </navigation>

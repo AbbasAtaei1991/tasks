@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -349,13 +348,11 @@ abstract class ExpandableRecyclerViewAdapter<ExpandedType : Any, ExpandableType 
 
     }
 
-    abstract class ExpandableViewHolder(override val containerView: View) :
-        RecyclerView.ViewHolder(containerView),
-        LayoutContainer
+    abstract class ExpandableViewHolder(val containerView: View) :
+        RecyclerView.ViewHolder(containerView)
 
-    abstract class ExpandedViewHolder(override val containerView: View) :
-        RecyclerView.ViewHolder(containerView),
-        LayoutContainer
+    abstract class ExpandedViewHolder(val containerView: View) :
+        RecyclerView.ViewHolder(containerView)
 
 
     abstract class ExpandableGroup<out E> {

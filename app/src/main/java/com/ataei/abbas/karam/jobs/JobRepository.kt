@@ -21,6 +21,8 @@ class JobRepository @Inject constructor(
 
     suspend fun insertDay(day: Day) = dayDao.insertDay(day)
 
+    suspend fun deleteDay(day: Day) = dayDao.deleteDay(day)
+
     fun getLastJob() = jobDao.getLastRecord()
 
     fun getJob(id: Int) = jobDao.getJob(id)

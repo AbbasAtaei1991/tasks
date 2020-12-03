@@ -9,30 +9,40 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.ataei.abbas.karam.databinding.ActivityMainBinding
 import com.ataei.abbas.karam.utils.UiMode
 import com.ataei.abbas.karam.utils.UserPreferenceRepository
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private var lable = ""
 
     @Inject
     lateinit var userPreferenceRepository: UserPreferenceRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        btnNavView.selectedItemId = R.id.navigation_job
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        findController().addOnDestinationChangedListener { _, destination, _ ->
+            lable = destination.label.toString()
+        }
+        binding.btnNavView.selectedItemId = R.id.navigation_job
         lifecycleScope.launch(Dispatchers.Main) {
             val firsLaunch = userPreferenceRepository.fetchFirstLaunch().first()
             if (firsLaunch) {
-                findController().navigate(R.id.ransomFragment)
-                btnNavView.selectedItemId = R.id.navigation_ransom
+                lifecycleScope.launch {
+                    delay(500L)
+                    findController().navigate(R.id.settingsFragment)
+                    binding.btnNavView.selectedItemId = R.id.navigation_ransom
+                }
                 userPreferenceRepository.saveFirstLaunch(false)
             }
         }
@@ -40,16 +50,19 @@ class MainActivity : AppCompatActivity() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.WHITE
         }
-        btnNavView.setOnNavigationItemSelectedListener { item ->
+        binding.btnNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_job -> {
-                    findController().navigate(R.id.jobFragment)
+                    if (lable != "JobFragment")
+                        findController().navigate(R.id.jobFragment)
                 }
                 R.id.navigation_debt -> {
-                    findController().navigate(R.id.debtFragment)
+                    if (lable != "ReportFragment")
+                        findController().navigate(R.id.reportFragment)
                 }
                 R.id.navigation_ransom -> {
-                    findController().navigate(R.id.ransomFragment)
+                    if (lable != "SettingsFragment")
+                        findController().navigate(R.id.settingsFragment)
                 }
             }
             true

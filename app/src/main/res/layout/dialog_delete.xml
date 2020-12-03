@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".utils.DeleteDialog"
+    android:background="@drawable/dialog_background"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/desc_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/delete_item"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/yesBtn"
+        style="@style/AppTheme.CustomMaterialButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_text"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/yes"
+        android:textColor="@color/white"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/noBtn"
+        style="@style/AppTheme.CustomMaterialButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_text"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/no"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

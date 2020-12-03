@@ -2,18 +2,16 @@ package com.ataei.abbas.karam.utils
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ataei.abbas.karam.R
 import com.ataei.abbas.karam.data.model.Daily
-import kotlinx.android.synthetic.main.item_daily.view.*
+import com.ataei.abbas.karam.databinding.ItemDailyBinding
 
 class DailyAdapter(private val items: List<Daily>, private val context: Context, private val listener: OnMenuClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
-    class DailyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val title = view.titleTv
-        private val menu = view.optionMenuIv
+    class DailyViewHolder(val binding: ItemDailyBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val title = binding.titleTv
+        private val menu = binding.optionMenuIv
 
         fun bind(daily: Daily, position: Int, listener: OnMenuClick) {
             title.text = daily.title
@@ -24,8 +22,8 @@ class DailyAdapter(private val items: List<Daily>, private val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_daily, parent, false)
-        return DailyViewHolder(view)
+        val binding = ItemDailyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DailyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
