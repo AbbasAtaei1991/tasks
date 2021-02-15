@@ -25,5 +25,5 @@ Used components and tools :
 * Dagger-Hilt
 
 * DataStore
-
-# You can install it from [here](https://cafebazaar.ir/app/com.ataei.abbas.karam)
+#
+## You can install it from [here](https://cafebazaar.ir/app/com.ataei.abbas.karam)
